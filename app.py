@@ -1,40 +1,79 @@
 import streamlit as st
 import re
 
-# --- CONFIGURASI HALAMAN & BACKGROUND ---
+# --- KONFIGURASI HALAMAN ---
 st.set_page_config(
     page_title="Stoikiometri Kimia - Kelompok 7",
     page_icon="🧪",
     layout="centered"
 )
 
-# Menambahkan CSS Kustom untuk Background bertema Laboratorium / Kimia Digital
+# --- REVISI 1: BACKGROUND CERAH DENGAN ELEMEN KIMIA/MOLEKUL MODERN ---
 st.markdown("""
     <style>
+    /* Background utama cerah dengan pola geometris jaringan molekul */
     .stApp {
-        background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-        color: #ffffff;
+        background-color: #f8fafc;
+        background-image: 
+            radial-gradient(#0d9488 0.8px, transparent 0.8px), 
+            radial-gradient(#0d9488 0.8px, #f8fafc 0.8px);
+        background-size: 40px 40px;
+        background-position: 0 0, 20px 20px;
+        color: #1e293b;
     }
-    h1, h2, h3, .stMarkdown {
-        color: #e0f7fa !important;
-    }
+    
+    /* Navigasi Sidebar */
     div[data-testid="stSidebar"] {
-        background-color: #11222c !important;
+        background-color: #ffffff !important;
+        border-right: 2px solid #e2e8f0;
     }
+    
+    /* Header & Teks */
+    h1, h2, h3 {
+        color: #0f766e !important;
+        font-weight: 700;
+    }
+    
+    /* Kotak Identitas Kelompok */
+    .identitas-box {
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 12px;
+        border-left: 6px solid #0d9488;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        margin-bottom: 25px;
+    }
+    
+    /* Tombol Utama */
     .stButton>button {
-        background-color: #00bcd4 !important;
+        background-color: #0d9488 !important;
         color: white !important;
-        border-radius: 8px;
+        border-radius: 8px !important;
+        font-weight: bold !important;
+        border: none !important;
+        width: 100%;
+        transition: all 0.3s ease;
     }
+    .stButton>button:hover {
+        background-color: #0f766e !important;
+        transform: translateY(-1px);
+    }
+    
+    /* REVISI 2: Kotak Hasil (Alert) Kontras Tinggi agar Jelas Terbaca */
     div[data-testid="stNotification"] {
-        background-color: #1b3a4b !important;
-        border-left: 5px solid #00bcd4 !important;
+        background-color: #f0fdfa !important;
+        border: 1px solid #99f6e4 !important;
+        border-left: 6px solid #0d9488 !important;
+        color: #115e59 !important;
+    }
+    div[data-testid="stNotification"] p {
+        color: #115e59 !important;
+        font-weight: 600;
     }
     </style>
     """, unsafe_allow_html=True)
 
-# --- DATABASE TABEL PERIODIK LENGKAP (Ar Semua Unsur) ---
-# Berisi seluruh unsur dari Hidrogen (H) sampai Oganesson (Og)
+# --- DATABASE TABEL PERIODIK LENGKAP ---
 AR_PERIODIK = {
     'H': 1.008, 'He': 4.0026, 'Li': 6.94, 'Be': 9.0122, 'B': 10.81, 'C': 12.011, 'N': 14.007, 'O': 15.999, 'F': 18.998, 'Ne': 20.180,
     'Na': 22.990, 'Mg': 24.305, 'Al': 26.982, 'Si': 28.085, 'P': 30.974, 'S': 32.06, 'Cl': 35.45, 'Ar': 39.948, 'K': 39.098, 'Ca': 40.078,
@@ -50,14 +89,12 @@ AR_PERIODIK = {
     'Lv': 293, 'Ts': 294, 'Og': 294
 }
 
-# Fungsi Pembantu Pengurai Rumus Kimia (Termasuk tanda kurung seperti Ca(OH)2)
 def hitung_bm_dari_teks(rumus):
     def parse_formula(f):
         reg = r'([A-Z][a-z]*)(\d*)'
         res = re.findall(reg, f)
         return {element: int(count) if count else 1 for element, count in res}
 
-    # Menangani tanda kurung di dalam rumus kimia
     while '(' in rumus:
         match = re.search(r'\(([^()]+)\)(\d*)', rumus)
         if match:
@@ -79,138 +116,156 @@ def hitung_bm_dari_teks(rumus):
             
     return total_bm, unsur_tidak_dikenal
 
-# --- HALAMAN UTAMA: IDENTITAS KELOMPOK ---
-st.title("🧮 Stoikiometri Kimia")
-st.subheader("Oleh Kelompok 7 - Mata Kuliah Logika Pemrograman dan Komputer")
+# --- JUDUL & IDENTITAS KELOMPOK ---
+st.title("🧪 Stoikiometri Kimia")
+st.subheader("Mata Kuliah Logika Pemrograman dan Komputer")
 
-# Kotak Identitas Anggota
 st.markdown("""
-<div style="background-color: rgba(255, 255, 255, 0.1); padding: 15px; border-radius: 10px; margin-bottom: 25px;">
-    <strong>Nama Anggota Kelompok:</strong><br>
-    1. 2560556 - AFFAN IHSANUL FATAH<br>
-    2. 2560618 - ELVIA ELVARITTA<br>
-    3. 2560675 - MUHAMMAD AQIL<br>
-    4. 2560739 - RAFI ALIFIA SHARIATI<br>
-    5. 2560796 - TIARA APRILIANTI
+<div class="identitas-box">
+    <span style="color: #0f766e; font-weight: bold; font-size: 1.1rem;">Kelompok 7:</span><br>
+    <table style="width:100%; border:none; margin-top:8px; color:#334155;">
+        <tr><td>1. 2560556 - AFFAN IHSANUL FATAH</td></tr>
+        <tr><td>2. 2560618 - ELVIA ELVARITTA</td></tr>
+        <tr><td>3. 2560675 - MUHAMMAD AQIL</td></tr>
+        <tr><td>4. 2560739 - RAFI ALIFIA SHARIATI</td></tr>
+        <tr><td>5. 2560796 - TIARA APRILIANTI</td></tr>
+    </table>
 </div>
 """, unsafe_allow_html=True)
 
 # --- SIDEBAR NAVIGASI ---
-st.sidebar.image("https://img.icons8.com/fluent/96/000000/chemistry.png", width=80)
-st.sidebar.header("Menu Navigasi")
+st.sidebar.header("🧭 Menu Navigasi")
 menu = st.sidebar.radio(
     "Pilih Fitur Perhitungan:",
     ["Bobot Molekul (BM/Mr)", "Konversi Satuan Kimia", "Faktor Pengenceran"]
 )
 
 # ==========================================
-# FEATURE 1: PERHITUNGAN BOBOT MOLEKUL TINGGAL KETIK
+# FEATURE 1: BOBOT MOLEKUL (BM/Mr)
 # ==========================================
 if menu == "Bobot Molekul (BM/Mr)":
     st.header("🔬 Perhitungan Bobot Molekul Otomatis")
-    st.write("Ketik rumus kimia senyawa langsung di bawah ini. Sistem mendukung penggunaan huruf kapital sensitif dan tanda kurung.")
+    st.write("Ketik rumus molekul senyawa kimia secara langsung untuk mengetahui berat molekulnya.")
     
-    input_senyawa = st.text_input("Masukkan Rumus Kimia Senyawa (Contoh: H2SO4, NaOH, Ca(OH)2):", "H2SO4")
+    input_senyawa = st.text_input("Masukkan Rumus Kimia Senyawa (Contoh: H2SO4, Ca(OH)2, NaCl):", "H2SO4")
     
     if st.button("Hitung BM / Mr"):
         if input_senyawa:
             bm, error_unsur = hitung_bm_dari_teks(input_senyawa)
             if error_unsur:
-                st.error(f"Unsur tidak dikenal atau salah ketik: {', '.join(error_unsur)}. Perhatikan huruf besar/kecilnya (Contoh: 'Na' bukan 'na').")
+                st.error(f"Unsur tidak dikenal: {', '.join(error_unsur)}. Gunakan huruf besar di awal unsur (Contoh: 'NaOH' bukan 'naoh').")
             elif bm == 0:
                 st.warning("Format rumus tidak valid.")
             else:
-                st.success(f"Bobot Molekul (BM) dari **{input_senyawa}** adalah: **{bm:.4f} g/mol**")
+                st.success(f"Bobot Molekul (BM) dari {input_senyawa} adalah: {bm:.4f} g/mol")
         else:
             st.warning("Silakan isi rumus kimia terlebih dahulu.")
 
 # ==========================================
-# FEATURE 2: KONVERSI SATUAN KIMIA MULTI-VARIABEL
+# FEATURE 2: REVISI KONVERSI SATUAN (DARI -> KE)
 # ==========================================
 elif menu == "Konversi Satuan Kimia":
     st.header("🔄 Konversi Hubungan Satuan Kimia")
-    st.write("Konversi terintegrasi antara Normalitas, Molaritas, Mol, Massa, dan Volume.")
+    st.write("Silakan tentukan satuan awal dan satuan tujuan konversi yang Anda inginkan.")
     
-    # Input data dasar yang dibutuhkan untuk kalkulasi silang
-    col_a, col_b = st.columns(2)
-    with col_a:
-        mr_input = st.number_input("Massa Molar / Mr Senyawa (g/mol):", min_value=0.1, value=98.0, step=0.1)
-    with col_b:
-        valensi_input = st.number_input("Valensi / Ekivalen Zat (Untuk Normalitas):", min_value=1, value=2, step=1)
+    # Input parameter dasar senyawa
+    c1, c2 = st.columns(2)
+    with c1:
+        mr_val = st.number_input("Massa Molar / Mr Senyawa (g/mol):", min_value=0.1, value=98.0, step=0.1)
+    with c2:
+        val_val = st.number_input("Valensi / Ekivalen Zat (Untuk Normalitas):", min_value=1, value=2, step=1)
+        
+    st.markdown("### ⚙️ Pengaturan Alur Konversi")
+    
+    col_from, col_to = st.columns(2)
+    with col_from:
+        satuan_asal = st.selectbox(
+            "Pilih Satuan Asal (Yang Diketahui):",
+            ["Massa (gram)", "Mol (mol)", "Molaritas (M)", "Normalitas (N)"]
+        )
+    with col_to:
+        # Pilihan dinamis agar tidak memilih satuan yang sama
+        daftar_tujuan = ["Massa (gram)", "Mol (mol)", "Molaritas (M)", "Normalitas (N)"]
+        if satuan_asal in daftar_tujuan:
+            daftar_tujuan.remove(satuan_asal)
+        satuan_tujuan = st.selectbox("Pilih Satuan Tujuan (Yang Dicari):", daftar_tujuan)
 
     st.markdown("---")
     
-    opsi_asal = st.selectbox(
-        "Pilih Satuan Yang Diketahui (Asal):",
-        ["Massa (gram)", "Mol (n)", "Molaritas (M)", "Normalitas (N)"]
-    )
-    
-    # Logika dinamis berdasarkan apa yang dipilih pengguna sebagai data asal
-    if opsi_asal == "Massa (gram)":
-        g = st.number_input("Masukkan Massa (gram):", min_value=0.0, value=9.8, step=0.1)
-        v_ml = st.number_input("Masukkan Volume Larutan (mL):", min_value=0.1, value=100.0, step=10.0)
+    # Menampung nilai input dan memproses konversi secara terstruktur
+    if satuan_asal == "Massa (gram)":
+        g = st.number_input("Masukkan Nilai Massa (gram):", min_value=0.0, value=9.8)
+        v_ml = st.number_input("Masukkan Volume Larutan (mL) [Dibutuhkan untuk M dan N]:", min_value=0.1, value=100.0)
         
-        if st.button("Konversi Satuan"):
-            n = g / mr_input
-            m = (g / mr_input) * (1000 / v_ml)
-            norm = m * valensi_input
+        if st.button("Proses Konversi"):
+            mol = g / mr_val
+            molaritas = mol * (1000 / v_ml)
+            normalitas = molaritas * val_val
             
-            st.success(f"**Hasil Konversi dari {g} gram zat dalam {v_ml} mL larutan:**")
-            st.info(f"🔹 Jumlah Mol = **{n:.4f} mol**")
-            st.info(f"🔹 Molaritas = **{m:.4f} M**")
-            st.info(f"🔹 Normalitas = **{norm:.4f} N**")
-            
-    elif opsi_asal == "Mol (n)":
-        n = st.number_input("Masukkan Jumlah Mol (mol):", min_value=0.0, value=0.1, step=0.01)
-        v_ml = st.number_input("Masukkan Volume Larutan (mL) jika ingin mencari M & N:", min_value=0.1, value=100.0, step=10.0)
-        
-        if st.button("Konversi Satuan"):
-            g = n * mr_input
-            m = n * (1000 / v_ml)
-            norm = m * valensi_input
-            
-            st.success(f"**Hasil Konversi dari {n} mol:**")
-            st.info(f"🔹 Massa = **{g:.4f} gram**")
-            st.info(f"🔹 Molaritas (dalam {v_ml} mL) = **{m:.4f} M**")
-            st.info(f"🔹 Normalitas (dalam {v_ml} mL) = **{norm:.4f} N**")
+            if satuan_tujuan == "Mol (mol)":
+                st.success(f"Hasil: {g} gram = {mol:.4f} mol")
+            elif satuan_tujuan == "Molaritas (M)":
+                st.success(f"Hasil: {g} gram dalam {v_ml} mL = {molaritas:.4f} M")
+            elif satuan_tujuan == "Normalitas (N)":
+                st.success(f"Hasil: {g} gram dalam {v_ml} mL = {normalitas:.4f} N")
 
-    elif opsi_asal == "Molaritas (M)":
-        m = st.number_input("Masukkan Molaritas (M):", min_value=0.0, value=1.0, step=0.1)
-        v_ml = st.number_input("Masukkan Volume Larutan (mL):", min_value=0.1, value=250.0, step=10.0)
+    elif satuan_asal == "Mol (mol)":
+        mol = st.number_input("Masukkan Nilai Jumlah Mol (mol):", min_value=0.0, value=0.1)
+        v_ml = st.number_input("Masukkan Volume Larutan (mL) [Dibutuhkan untuk M dan N]:", min_value=0.1, value=100.0)
         
-        if st.button("Konversi Satuan"):
-            g = (m * mr_input * v_ml) / 1000
-            n = (m * v_ml) / 1000
-            norm = m * valensi_input
+        if st.button("Proses Konversi"):
+            g = mol * mr_val
+            molaritas = mol * (1000 / v_ml)
+            normalitas = molaritas * val_val
             
-            st.success(f"**Hasil Konversi dari {m} M dalam {v_ml} mL:**")
-            st.info(f"🔹 Massa Zat Terlarut = **{g:.4f} gram**")
-            st.info(f"🔹 Jumlah Mol = **{n:.4f} mol**")
-            st.info(f"🔹 Normalitas = **{norm:.4f} N**")
+            if satuan_tujuan == "Massa (gram)":
+                st.success(f"Hasil: {mol} mol = {g:.4f} gram")
+            elif satuan_tujuan == "Molaritas (M)":
+                st.success(f"Hasil: {mol} mol dalam {v_ml} mL = {molaritas:.4f} M")
+            elif satuan_tujuan == "Normalitas (N)":
+                st.success(f"Hasil: {mol} mol dalam {v_ml} mL = {normalitas:.4f} N")
 
-    elif opsi_asal == "Normalitas (N)":
-        norm = st.number_input("Masukkan Normalitas (N):", min_value=0.0, value=1.0, step=0.1)
-        v_ml = st.number_input("Masukkan Volume Larutan (mL):", min_value=0.1, value=250.0, step=10.0)
+    elif satuan_asal == "Molaritas (M)":
+        molaritas = st.number_input("Masukkan Nilai Molaritas (M):", min_value=0.0, value=1.0)
+        v_ml = st.number_input("Masukkan Volume Larutan (mL):", min_value=0.1, value=250.0)
         
-        if st.button("Konversi Satuan"):
-            m = norm / valensi_input
-            g = (m * mr_input * v_ml) / 1000
-            n = (m * v_ml) / 1000
+        if st.button("Proses Konversi"):
+            g = (molaritas * mr_val * v_ml) / 1000
+            mol = (molaritas * v_ml) / 1000
+            normalitas = molaritas * val_val
             
-            st.success(f"**Hasil Konversi dari {norm} N dalam {v_ml} mL:**")
-            st.info(f"🔹 Molaritas = **{m:.4f} M**")
-            st.info(f"🔹 Massa Zat Terlarut = **{g:.4f} gram**")
-            st.info(f"🔹 Jumlah Mol = **{n:.4f} mol**")
+            if satuan_tujuan == "Massa (gram)":
+                st.success(f"Hasil: {molaritas} M dalam {v_ml} mL = {g:.4f} gram")
+            elif satuan_tujuan == "Mol (mol)":
+                st.success(f"Hasil: {molaritas} M dalam {v_ml} mL = {mol:.4f} mol")
+            elif satuan_tujuan == "Normalitas (N)":
+                st.success(f"Hasil: {molaritas} M = {normalitas:.4f} N")
+
+    elif satuan_asal == "Normalitas (N)":
+        normalitas = st.number_input("Masukkan Nilai Normalitas (N):", min_value=0.0, value=1.0)
+        v_ml = st.number_input("Masukkan Volume Larutan (mL):", min_value=0.1, value=250.0)
+        
+        if st.button("Proses Konversi"):
+            molaritas = normalitas / val_val
+            g = (molaritas * mr_val * v_ml) / 1000
+            mol = (molaritas * v_ml) / 1000
+            
+            if satuan_tujuan == "Molaritas (M)":
+                st.success(f"Hasil: {normalitas} N = {molaritas:.4f} M")
+            elif satuan_tujuan == "Massa (gram)":
+                st.success(f"Hasil: {normalitas} N dalam {v_ml} mL = {g:.4f} gram")
+            elif satuan_tujuan == "Mol (mol)":
+                st.success(f"Hasil: {normalitas} N dalam {v_ml} mL = {mol:.4f} mol")
 
 # ==========================================
-# FEATURE 3: FAKTOR PENGENCERAN LENGKAP 4 VARIABEL
+# FEATURE 3: REVISI KOTAK INPUT PENGENCERAN JELAS
 # ==========================================
 elif menu == "Faktor Pengenceran":
-    st.header("🧪 Perhitungan Faktor Pengenceran Lengkap")
-    st.write("Gunakan rumus $V_1 \\times M_1 = V_2 \\times M_2$ untuk mencari nilai salah satu variabel.")
+    st.header("🧪 Perhitungan Faktor Pengenceran")
+    st.write("Gunakan rumus pengenceran murni $V_1 \\times M_1 = V_2 \\times M_2$")
     
     target_cari = st.selectbox(
-        "Pilih Variabel yang Ingin Dicari:",
+        "Pilih Variabel yang Ingin Anda Cari:",
         [
             "Konsentrasi Larutan Pekat (M1)", 
             "Volume Larutan Pekat (V1)", 
@@ -219,56 +274,57 @@ elif menu == "Faktor Pengenceran":
         ]
     )
     
-    st.markdown("---")
+    st.markdown("### 📝 Kotak Input Parameter")
     
+    # Modifikasi pelabelan form input agar eksplisit dan mudah dibaca user
     if target_cari == "Konsentrasi Larutan Pekat (M1)":
-        v1 = st.number_input("Volume Larutan Pekat yang diambil (V1 dalam mL):", min_value=0.01, value=10.0)
-        m2 = st.number_input("Konsentrasi Larutan Encer Terbentuk (M2):", min_value=0.01, value=0.1)
-        v2 = st.number_input("Volume Larutan Encer Terbentuk (V2 dalam mL):", min_value=0.01, value=100.0)
+        v1 = st.number_input("Masukkan Volume Larutan Pekat yang diambil (V1) dalam mL:", min_value=0.01, value=10.0)
+        m2 = st.number_input("Masukkan Konsentrasi Larutan Encer Terbentuk (M2):", min_value=0.01, value=0.1)
+        v2 = st.number_input("Masukkan Volume Larutan Encer Terbentuk (V2) dalam mL:", min_value=0.01, value=100.0)
         
         if st.button("Hitung M1"):
             m1 = (m2 * v2) / v1
-            st.success(f"Konsentrasi Larutan Pekat Asal (**M1**) adalah: **{m1:.4f} M (atau N)**")
-            st.info(f"Faktor Pengenceran: **{v2/v1:.2f} kali**")
+            st.success(f"Hasil Perhitungan: Konsentrasi Larutan Pekat Asal (M1) = {m1:.4f} M (atau N)")
+            st.info(f"Faktor Pengenceran yang dilakukan: {v2/v1:.1f} kali")
             
     elif target_cari == "Volume Larutan Pekat (V1)":
-        m1 = st.number_input("Konsentrasi Larutan Pekat Asal (M1):", min_value=0.01, value=12.0)
-        m2 = st.number_input("Konsentrasi Larutan Encer yang Diinginkan (M2):", min_value=0.01, value=0.5)
-        v2 = st.number_input("Volume Larutan Encer yang Diinginkan (V2 dalam mL):", min_value=0.01, value=500.0)
+        m1 = st.number_input("Masukkan Konsentrasi Larutan Pekat Asal (M1):", min_value=0.01, value=12.0)
+        m2 = st.number_input("Masukkan Konsentrasi Larutan Encer yang Diinginkan (M2):", min_value=0.01, value=0.5)
+        v2 = st.number_input("Masukkan Volume Larutan Encer yang Diinginkan (V2) dalam mL:", min_value=0.01, value=500.0)
         
         if st.button("Hitung V1"):
             if m1 >= m2:
                 v1 = (m2 * v2) / m1
-                st.success(f"Ambil **{v1:.4f} mL** larutan pekat, lalu encerkan sampai tanda batas volume **{v2} mL**.")
-                st.info(f"Faktor Pengenceran: **{m1/m2:.2f} kali**")
+                st.success(f"Hasil Perhitungan: Ambil {v1:.4f} mL larutan pekat (V1), lalu encerkan hingga {v2} mL.")
+                st.info(f"Faktor Pengenceran: {m1/m2:.1f} kali")
             else:
-                st.error("Error: Konsentrasi pekat (M1) harus lebih besar dari konsentrasi encer (M2)!")
+                st.error("Gagal: Konsentrasi awal (M1) tidak boleh lebih kecil dari konsentrasi encer (M2)!")
 
     elif target_cari == "Konsentrasi Larutan Encer (M2)":
-        m1 = st.number_input("Konsentrasi Larutan Pekat Asal (M1):", min_value=0.01, value=2.0)
-        v1 = st.number_input("Volume Larutan Pekat yang diambil (V1 dalam mL):", min_value=0.01, value=25.0)
-        v2 = st.number_input("Volume Larutan Setelah Diencerkan (V2 dalam mL):", min_value=0.01, value=250.0)
+        m1 = st.number_input("Masukkan Konsentrasi Larutan Pekat Asal (M1):", min_value=0.01, value=2.0)
+        v1 = st.number_input("Masukkan Volume Larutan Pekat yang diambil (V1) dalam mL:", min_value=0.01, value=25.0)
+        v2 = st.number_input("Masukkan Volume Larutan Setelah Diencerkan (V2) dalam mL:", min_value=0.01, value=250.0)
         
         if st.button("Hitung M2"):
             if v2 >= v1:
                 m2 = (m1 * v1) / v2
-                st.success(f"Konsentrasi Larutan Setelah Diencerkan (**M2**) adalah: **{m2:.4f} M (atau N)**")
-                st.info(f"Faktor Pengenceran: **{v2/v1:.2f} kali**")
+                st.success(f"Hasil Perhitungan: Konsentrasi Larutan Setelah Diencerkan (M2) = {m2:.4f} M (atau N)")
+                st.info(f"Faktor Pengenceran: {v2/v1:.1f} kali")
             else:
-                st.error("Error: Volume akhir (V2) harus lebih besar dari volume awal (V1)!")
+                st.error("Gagal: Volume akhir (V2) harus lebih besar daripada volume awal (V1)!")
 
     elif target_cari == "Volume Larutan Encer (V2)":
-        m1 = st.number_input("Konsentrasi Larutan Pekat Asal (M1):", min_value=0.01, value=6.0)
-        v1 = st.number_input("Volume Larutan Pekat yang diambil (V1 dalam mL):", min_value=0.01, value=10.0)
-        m2 = st.number_input("Konsentrasi Larutan Encer yang Diinginkan (M2):", min_value=0.01, value=0.1)
+        m1 = st.number_input("Masukkan Konsentrasi Larutan Pekat Asal (M1):", min_value=0.01, value=6.0)
+        v1 = st.number_input("Masukkan Volume Larutan Pekat yang diambil (V1) dalam mL:", min_value=0.01, value=10.0)
+        m2 = st.number_input("Masukkan Konsentrasi Larutan Encer yang Diinginkan (M2):", min_value=0.01, value=0.1)
         
         if st.button("Hitung V2"):
             if m1 >= m2:
                 v2 = (m1 * v1) / m2
-                st.success(f"Volume akhir larutan encer (**V2**) adalah: **{v2:.2f} mL**")
-                st.info(f"Artinya Anda perlu menambahkan aquades sebanyak **{v2 - v1:.2f} mL** ke dalam larutan pekat.")
+                st.success(f"Hasil Perhitungan: Volume Akhir Larutan Encer (V2) = {v2:.2f} mL")
+                st.info(f"Tambahkan air aquades sebanyak {v2 - v1:.2f} mL ke dalam labu takar.")
             else:
-                st.error("Error: Konsentrasi pekat (M1) harus lebih besar dari konsentrasi encer (M2)!")
+                st.error("Gagal: Konsentrasi awal (M1) tidak boleh lebih kecil dari konsentrasi encer (M2)!")
 
 # --- FOOTER ---
 st.markdown("---")
