@@ -382,4 +382,16 @@ elif menu == "3. Perhitungan Faktor Pengenceran":
         if st.button("Hitung V2"):
             if m1 >= m2:
                 v2 = (m1 * v1) / m2
-                st
+                st.success(f"Hasil Perhitungan: Volume Akhir Larutan Encer (V2) = {format_koma_v(v2)} mL")
+                
+                st.markdown("### 📝 Langkah Perhitungan:")
+                st.info(f"**Rumus Dasar:** V1 * M1 = V2 * M2\n\n"
+                        f"**Turunan Rumus:** V2 = (M1 * V1) / M2\n\n"
+                        f"**Proses Hitung:** V2 = ({format_koma(m1)} * {format_koma_v(v1)}) / {format_koma(m2)}\n\n"
+                        f"**Hasil Akhir:** {format_koma_v(v2)} mL")
+            else:
+                st.error("Gagal: Konsentrasi awal (M1) tidak boleh lebih kecil dari konsentrasi akhir (M2)!")
+
+# --- FOOTER ---
+st.markdown("---")
+st.caption("Aplikasi Logika Pemrograman & Komputer | Kelompok 7 | © 2026")
