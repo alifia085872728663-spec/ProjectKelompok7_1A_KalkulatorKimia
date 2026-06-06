@@ -8,7 +8,7 @@ st.set_page_config(
     layout="centered"
 )
 
-# --- ROMBAK TOTAL: TEMA TERANG (LIGHT MODE) KREATIF & TEKS TEGAS ---
+# --- TEMA TERANG (LIGHT MODE) + ANIMASI BERGERAK + TEKS KONTRAST TINGGI ---
 st.markdown("""
     <style>
     /* 1. Background Utama: Gradasi Terang Cairan Kimia Lembut */
@@ -18,17 +18,24 @@ st.markdown("""
         color: #0f172a !important;
     }
 
-    /* 2. Ornamen Background: Pola Struktur Kristal/Heksagonal Transparan */
+    /* 2. BARU: Animasi Partikel Molekul Bergerak (Latar Belakang Cerah) */
     .stApp::before {
         content: "";
         position: fixed;
         top: 0; left: 0; width: 100%; height: 100%;
         pointer-events: none;
         z-index: 0;
-        opacity: 0.4;
+        opacity: 0.25; /* Transparansi pas agar tidak menutupi teks utama */
         background-image: 
-            url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Cpath d='M30 0 L60 15 L60 45 L30 60 L0 45 L0 15 Z' fill='none' stroke='%23bae6fd' stroke-width='1'/%3E%3C/svg%3E");
-        background-size: 120px;
+            url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 800'%3E%3Cg fill='%2338bdf8'%3E%3Ccircle cx='400' cy='400' r='15'/%3E%3Ccircle cx='200' cy='200' r='10'/%3E%3Ccircle cx='600' cy='200' r='12'/%3E%3Ccircle cx='300' cy='600' r='8'/%3E%3Ccircle cx='550' cy='550' r='14'/%3E%3Cline x1='400' y1='400' x2='200' y2='200' stroke='%2338bdf8' stroke-width='2'/%3E%3Cline x1='400' y1='400' x2='600' y2='200' stroke='%2338bdf8' stroke-width='2'/%3E%3Cline x1='400' y1='400' x2='300' y2='600' stroke='%2338bdf8' stroke-width='2'/%3E%3Cline x1='400' y1='400' x2='550' y2='550' stroke='%2338bdf8' stroke-width='2'/%3E%3C/g%3E%3C/svg%3E");
+        background-size: 450px;
+        animation: floatBackgroundLight 30s linear infinite;
+    }
+
+    /* Efek Gerakan Diagonal Halus */
+    @keyframes floatBackgroundLight {
+        0% { background-position: 0px 0px; }
+        100% { background-position: 450px 450px; }
     }
     
     .main .block-container {
@@ -36,20 +43,21 @@ st.markdown("""
         z-index: 1;
     }
     
-    /* 3. SIDEBAR FIXED: Warna Terang Kontras Tinggi agar Teks Super Jelas */
+    /* 3. SIDEBAR: Warna Putih Solid agar Menu Terbaca Jelas */
     div[data-testid="stSidebar"] {
         background-color: #ffffff !important;
         border-right: 2px solid #bae6fd !important;
         box-shadow: 4px 0 15px rgba(0,0,0,0.05);
+        z-index: 2; /* Menjaga posisi di atas animasi background */
     }
 
-    /* Memaksa semua teks di dalam sidebar menjadi Hitam Pekat/Gelap Tegas */
+    /* Memaksa semua teks di dalam sidebar menjadi Hitam Pekat Tegas */
     div[data-testid="stSidebar"] * {
         color: #0f172a !important;
-        font-weight: 500 !important;
+        font-weight: 600 !important;
     }
 
-    /* Khusus untuk Judul Menu Fitur di Sidebar */
+    /* Mengubah Judul Menu Fitur di Sidebar */
     div[data-testid="stSidebar"] h1, div[data-testid="stSidebar"] h2, div[data-testid="stSidebar"] h3 {
         color: #0284c7 !important;
         font-weight: 700 !important;
@@ -61,7 +69,7 @@ st.markdown("""
         font-weight: 800;
     }
     
-    /* 5. Kotak Identitas Bergaya Kartu Lab Modern */
+    /* 5. Kotak Identitas Bergaya Kartu Putih Elegan */
     .identitas-box {
         background: rgba(255, 255, 255, 0.85);
         border-radius: 16px;
@@ -89,7 +97,7 @@ st.markdown("""
         box-shadow: 0 6px 15px rgba(2, 132, 199, 0.3);
     }
 
-    /* Memastikan teks deskripsi halaman utama berwarna gelap dan terbaca */
+    /* Memastikan teks deskripsi halaman utama berwarna gelap */
     p, span, label {
         color: #334155 !important;
     }
