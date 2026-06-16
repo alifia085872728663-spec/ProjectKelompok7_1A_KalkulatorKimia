@@ -8,34 +8,33 @@ st.set_page_config(
     layout="centered"
 )
 
-# --- TEMA TERANG (LIGHT MODE) + ANIMASI BERGERAK + TEKS KONTRAST TINGGI ---
+# --- REVISI TOTAL: GRADASI & ELEMEN KIMIA MURNI CSS/SVG ---
 st.markdown("""
     <style>
-    /* 1. Background Utama: Gradasi Terang Cairan Kimia Lembut */
+    /* Background dengan gradasi warna Lembut: Biru -> Putih -> Kuning */
     .stApp {
-        background: linear-gradient(135deg, #f0fdf4 0%, #e0f2fe 50%, #faf5ff 100%) !important;
+        background: linear-gradient(135deg, #e0f2fe 0%, #ffffff 50%, #fef9c3 100%) !important;
         background-attachment: fixed !important;
-        color: #0f172a !important;
+        color: #1e293b;
     }
 
-    /* 2. BARU: Animasi Partikel Molekul Bergerak (Latar Belakang Cerah) */
+    /* Elemen Grafis Kimia Transparan Langsung via SVG */
     .stApp::before {
         content: "";
         position: fixed;
-        top: 0; left: 0; width: 100%; height: 100%;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
         pointer-events: none;
+        opacity: 0.08;
         z-index: 0;
-        opacity: 0.25; /* Transparansi pas agar tidak menutupi teks utama */
         background-image: 
-            url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 800'%3E%3Cg fill='%2338bdf8'%3E%3Ccircle cx='400' cy='400' r='15'/%3E%3Ccircle cx='200' cy='200' r='10'/%3E%3Ccircle cx='600' cy='200' r='12'/%3E%3Ccircle cx='300' cy='600' r='8'/%3E%3Ccircle cx='550' cy='550' r='14'/%3E%3Cline x1='400' y1='400' x2='200' y2='200' stroke='%2338bdf8' stroke-width='2'/%3E%3Cline x1='400' y1='400' x2='600' y2='200' stroke='%2338bdf8' stroke-width='2'/%3E%3Cline x1='400' y1='400' x2='300' y2='600' stroke='%2338bdf8' stroke-width='2'/%3E%3Cline x1='400' y1='400' x2='550' y2='550' stroke='%2338bdf8' stroke-width='2'/%3E%3C/g%3E%3C/svg%3E");
-        background-size: 450px;
-        animation: floatBackgroundLight 30s linear infinite;
-    }
-
-    /* Efek Gerakan Diagonal Halus */
-    @keyframes floatBackgroundLight {
-        0% { background-position: 0px 0px; }
-        100% { background-position: 450px 450px; }
+            url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 800'%3E%3Cg fill='none' stroke='%230284c7' stroke-width='3'%3E%3Cpath d='M80 650 L140 650 L120 530 L100 530 Z' /%3E%3Cpath d='M100 560 L140 560 M105 590 L135 590 M110 620 L130 620' /%3E%3Ccircle cx='190' cy='520' r='12' /%3E%3Ccircle cx='250' cy='490' r='18' /%3E%3Ccircle cx='290' cy='540' r='10' /%3E%3Cline x1='190' y1='520' x2='235' y2='495' /%3E%3Cline x1='250' y1='490' x2='290' y2='530' /%3E%3C/g%3E%3C/svg%3E"),
+            url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 800'%3E%3Cg fill='none' stroke='%230369a1' stroke-width='2.5'%3E%3Cpath d='M680 150 L680 190 L630 300 L730 300 L680 190' /%3E%3Cpath d='M645 270 L715 270 M655 240 L705 240' /%3E%3Cpolygon points='600,100 640,80 680,100 680,140 640,160 600,140' /%3E%3Cpolygon points='560,140 600,160 600,200 560,220 520,200 520,140' /%3E%3C/g%3E%3C/svg%3E");
+        background-position: left bottom, right top;
+        background-repeat: no-repeat;
+        background-size: 380px, 380px;
     }
     
     .main .block-container {
@@ -43,63 +42,47 @@ st.markdown("""
         z-index: 1;
     }
     
-    /* 3. SIDEBAR: Warna Putih Solid agar Menu Terbaca Jelas */
     div[data-testid="stSidebar"] {
-        background-color: #ffffff !important;
-        border-right: 2px solid #bae6fd !important;
-        box-shadow: 4px 0 15px rgba(0,0,0,0.05);
-        z-index: 2; /* Menjaga posisi di atas animasi background */
-    }
-
-    /* Memaksa semua teks di dalam sidebar menjadi Hitam Pekat Tegas */
-    div[data-testid="stSidebar"] * {
-        color: #0f172a !important;
-        font-weight: 600 !important;
-    }
-
-    /* Mengubah Judul Menu Fitur di Sidebar */
-    div[data-testid="stSidebar"] h1, div[data-testid="stSidebar"] h2, div[data-testid="stSidebar"] h3 {
-        color: #0284c7 !important;
-        font-weight: 700 !important;
+        background-color: rgba(255, 255, 255, 0.9) !important;
+        border-right: 1px solid #e2e8f0;
     }
     
-    /* 4. Pewarnaan Judul Konten Utama */
     h1, h2, h3 {
         color: #0369a1 !important;
-        font-weight: 800;
+        font-weight: 700;
     }
     
-    /* 5. Kotak Identitas Bergaya Kartu Putih Elegan */
     .identitas-box {
-        background: rgba(255, 255, 255, 0.85);
-        border-radius: 16px;
-        padding: 22px;
-        border: 1px solid #e2e8f0;
-        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+        background-color: rgba(255, 255, 255, 0.8);
+        padding: 20px;
+        border-radius: 12px;
+        border-left: 5px solid #0ea5e9;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
         margin-top: 10px;
         margin-bottom: 25px;
     }
     
-    /* 6. Tombol Interaktif Gradasi Cerah */
     .stButton>button {
-        background: linear-gradient(90deg, #0284c7 0%, #0369a1 100%) !important;
+        background-color: #0ea5e9 !important;
         color: white !important;
-        border-radius: 10px !important;
+        border-radius: 8px !important;
         font-weight: bold !important;
         border: none !important;
         width: 100%;
-        padding: 12px 0px;
-        box-shadow: 0 4px 12px rgba(2, 132, 199, 0.2);
-        transition: all 0.2s ease;
+        padding: 10px 0px;
     }
     .stButton>button:hover {
-        transform: translateY(-1px);
-        box-shadow: 0 6px 15px rgba(2, 132, 199, 0.3);
+        background-color: #0284c7 !important;
     }
-
-    /* Memastikan teks deskripsi halaman utama berwarna gelap */
-    p, span, label {
-        color: #334155 !important;
+    
+    div[data-testid="stNotification"] {
+        background-color: rgba(240, 253, 250, 0.95) !important;
+        border: 1px solid #99f6e4 !important;
+        border-left: 6px solid #0d9488 !important;
+    }
+    div[data-testid="stNotification"] p {
+        color: #115e59 !important;
+        font-size: 1.1rem !important;
     }
     </style>
     """, unsafe_allow_html=True)
@@ -143,7 +126,7 @@ def hitung_bm_dari_teks(rumus):
             ar_unsur = AR_PERIODIK[unsur]
             sub_total = ar_unsur * jumlah
             total_bm += sub_total
-            rincian.append(f"({jumlah} \\times \\text{{Ar }} {unsur} [{format_koma(ar_unsur)}])")
+            rincian.append(f"({jumlah} x Ar {unsur} [{format_koma(ar_unsur)}])")
         else:
             unsur_tidak_dikenal.append(unsur)
             
@@ -151,7 +134,7 @@ def hitung_bm_dari_teks(rumus):
     return total_bm, unsur_tidak_dikenal, cara_teks
 
 # ==========================================
-# HALAMAN UTAMA (KOMPONEN PERMANEN)
+# HALAMAN UTAMA (SELALU MUNCUL DI ATAS)
 # ==========================================
 st.title("🧪 Kalkulator Kimia")
 st.markdown("### Perhitungan Bobot Molekul, Konversi Satuan, dan Faktor Pengenceran")
@@ -162,10 +145,9 @@ st.markdown("""
         📄 INFORMASI PROJECT MAKALAH
     </div>
     <table style="width:100%; border:none; color:#334155; font-size:0.95rem; line-height: 1.6;">
-        <tr><td style="width: 25%; font-weight: bold; color: #0369a1;">Mata Kuliah</td><td>: Logika Pemrograman dan Komputer</td></tr>
-        <tr><td style="font-weight: bold; color: #0369a1;">Kelas</td><td style="color: #0d9488; font-weight: bold;">: 1A</td></tr>
-        <tr><td style="font-weight: bold; color: #0369a1;">Kelompok</td><td>: Kelompok 7</td></tr>
-        <tr><td style="vertical-align: top; font-weight: bold; color: #0369a1;">Anggota</td><td>: 
+        <tr><td style="width: 25%; font-weight: bold;">Mata Kuliah</td><td>: Logika Pemrograman dan Komputer</td></tr>
+        <tr><td style="font-weight: bold;">Kelompok</td><td>: Kelompok 7</td></tr>
+        <tr><td style="vertical-align: top; font-weight: bold;">Anggota</td><td>: 
             <table style="width:100%; margin-top:-2px; border:none; color:#334155;">
                 <tr><td>• 2560556 - AFFAN IHSANUL FATAH</td><td>• 2560618 - ELVIA ELVARITTA</td></tr>
                 <tr><td>• 2560765 - MUHAMMAD AQIL</td><td>• 2560739 - RAFI ALIFIA SHARIATI</td></tr>
@@ -177,30 +159,42 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # ==========================================
-# SIDEBAR NAVIGASI MENU
+# SIDEBAR NAVIGASI MENU (3 POIN UTAMA)
 # ==========================================
-st.sidebar.header("🧭 Menu Fitur")
+st.sidebar.title("🧪 Kalkulator Kimia")
+st.sidebar.markdown("---")
 menu = st.sidebar.radio(
-    "Silakan Pilih Fitur Perhitungan:",
-    [
-        "Silakan Pilih...",
-        "1. Perhitungan Bobot Molekul (BM/Mr)", 
-        "2. Konversi Satuan Kimia", 
-        "3. Perhitungan Faktor Pengenceran"
-    ]
+    "Menu",
+    ["🏠 Home","🧪 Bobot Molekul","🔄 Konversi","💧 Pengenceran"]
 )
 
 st.markdown("---")
 
-if menu == "Silakan Pilih...":
-    st.info("💡 **Petunjuk Penggunaan:** Silakan gunakan **Menu Fitur** di sebelah kiri (sidebar) untuk memilih jenis kalkulator kimia yang ingin Anda operasikan.")
+if menu == "🏠 Home":
+    st.header("🏠 Home")
+    st.markdown("""
+## Selamat Datang
+
+Aplikasi **Kalkulator Kimia** ini dibuat untuk membantu melakukan
+perhitungan kimia dengan cepat, mudah, dan akurat.
+
+### Fitur
+- 🧪 Perhitungan Bobot Molekul (BM/Mr)
+- 🔄 Konversi Satuan Kimia
+- 💧 Perhitungan Faktor Pengenceran
+
+### Cara Menggunakan
+1. Pilih menu di sidebar.
+2. Masukkan data yang diperlukan.
+3. Tekan tombol **Hitung**.
+4. Hasil dan langkah perhitungan akan ditampilkan.
+""")
 
 # ==========================================
 # MENU 1: BOBOT MOLEKUL (BM/Mr)
 # ==========================================
-elif menu == "1. Perhitungan Bobot Molekul (BM/Mr)":
+elif menu == "🧪 Bobot Molekul":
     st.header("🔬 Perhitungan Bobot Molekul")
-    st.write("Ketik rumus molekul senyawa kimia secara langsung untuk mengetahui berat molekul beserta langkah detailnya.")
     
     input_senyawa = st.text_input("Masukkan Rumus Kimia Senyawa (Contoh: H2SO4, Ca(OH)2, NaCl):", "H2SO4")
     
@@ -213,19 +207,20 @@ elif menu == "1. Perhitungan Bobot Molekul (BM/Mr)":
                 st.warning("Format rumus tidak valid.")
             else:
                 st.success(f"Bobot Molekul (BM) dari {input_senyawa} adalah: {format_koma(bm)} g/mol")
-                st.markdown("### 📝 Langkah Perhitungan Matematis:")
-                st.latex(r"\text{Mr } \text{" + input_senyawa + r"} = \sum (\text{Jumlah Atom} \times \text{Ar})")
-                st.latex(r"\text{Mr } \text{" + input_senyawa + r"} = " + cara_teks)
-                st.latex(r"\text{Hasil Akhir} = " + format_koma(bm) + r"\text{ g/mol}")
+                
+                st.markdown("### 📝 Langkah Perhitungan:")
+                st.info(f"**Rumus:** Mr = Σ (Jumlah Atom x Ar)\n\n"
+                        f"**Proses Hitung:**\n"
+                        f"Mr {input_senyawa} = {cara_teks}\n\n"
+                        f"**Hasil Akhir:** {format_koma(bm)} g/mol")
         else:
             st.warning("Silakan isi rumus kimia terlebih dahulu.")
 
 # ==========================================
 # MENU 2: KONVERSI SATUAN KIMIA
 # ==========================================
-elif menu == "2. Konversi Satuan Kimia":
+elif menu == "🔄 Konversi":
     st.header("🔄 Konversi Hubungan Satuan Kimia")
-    st.write("Tentukan satuan awal dan tujuan konversi. Fitur ini mendukung konversi Massa, Mol, Molaritas, Normalitas, ppm, dan Persen Bobot.")
     
     c1, c2, c3 = st.columns(3)
     with c1:
@@ -244,16 +239,16 @@ elif menu == "2. Konversi Satuan Kimia":
     
     col_from, col_to = st.columns(2)
     with col_from:
-        satuan_asal = st.selectbox("Pilih Satuan Asal (Yang Diketahui):", daftar_satuan, index=5)
+        satuan_asal = st.selectbox("Pilih Satuan Asal (Yang Diketahui):", daftar_satuan, index=2)
     with col_to:
         daftar_tujuan = daftar_satuan.copy()
         if satuan_asal in daftar_tujuan:
             daftar_tujuan.remove(satuan_asal)
-        satuan_tujuan = st.selectbox("Pilih Satuan Tujuan (Yang Dicari):", daftar_tujuan, index=4)
+        satuan_tujuan = st.selectbox("Pilih Satuan Tujuan (Yang Dicari):", daftar_tujuan, index=2)
 
     st.markdown("---")
     
-    nilai_asal = st.number_input(f"Masukkan Nilai dari {satuan_asal}:", min_value=0.0, value=0.05, format="%.4f", step=0.01)
+    nilai_asal = st.number_input(f"Masukkan Nilai dari {satuan_asal}:", min_value=0.0, value=1.0, step=0.1)
     
     butuh_volume = [
         ("Massa (gram)", "Molaritas (M)"), ("Massa (gram)", "Normalitas (N)"), ("Massa (gram)", "Part Per Million (ppm)"),
@@ -268,82 +263,60 @@ elif menu == "2. Konversi Satuan Kimia":
         v_ml = st.number_input("Masukkan Volume Larutan (mL):", min_value=0.1, value=1000.0, step=50.0)
 
     if st.button("Proses Konversi Satuan"):
-        st.markdown("### 📝 Langkah Perhitungan Analisis Dimensi:")
-        hasil_akhir = 0.0
+        molaritas_pusat = 0.0
+        langkah_ke_molaritas = ""
         
-        if satuan_asal == "Persen Bobot (% b/b)" and satuan_tujuan == "Part Per Million (ppm)":
-            hasil_akhir = nilai_asal * 10000
-            st.markdown("**1. Mengubah Persen Bobot (% b/b) langsung ke Part Per Million (ppm):**")
-            st.latex(r"\text{ppm} = \% \text{ b/b} \times 10.000")
-            st.latex(r"\text{ppm} = " + format_koma(nilai_asal) + r"\% \times 10.000 = " + format_koma(hasil_akhir) + r"\text{ ppm}")
-            
-        elif satuan_asal == "Part Per Million (ppm)" and satuan_tujuan == "Persen Bobot (% b/b)":
-            hasil_akhir = nilai_asal / 10000
-            st.markdown("**1. Mengubah Part Per Million (ppm) langsung ke Persen Bobot (% b/b):**")
-            st.latex(r"\% \text{ b/b} = \frac{\text{ppm}}{10.000}")
-            st.latex(r"\% \text{ b/b} = \frac{" + format_koma(nilai_asal) + r"\text{ ppm}}{10.000} = " + format_koma(hasil_akhir) + r"\%")
-            
-        else:
-            molaritas_pusat = 0.0
-            st.markdown("**1. Konversi Satuan Asal ke Molaritas Pusat (M):**")
-            
-            if satuan_asal == "Molaritas (M)":
-                molaritas_pusat = nilai_asal
-                st.latex(r"\text{Molaritas Pusat (M)} = " + format_koma(molaritas_pusat) + r"\text{ mol/L}")
-            elif satuan_asal == "Massa (gram)":
-                molaritas_pusat = (nilai_asal / mr_val) * (1000 / v_ml)
-                st.latex(r"M = \frac{\text{gram}}{\text{Mr}} \times \frac{1000 \text{ mL/L}}{V_{\text{mL}}}")
-                st.latex(r"M = \frac{" + format_koma(nilai_asal) + r"\text{ g}}{" + format_koma(mr_val) + r"\text{ g/mol}} \times \frac{1000 \text{ mL/L}}{" + format_koma_v(v_ml) + r"\text{ mL}} = " + format_koma(molaritas_pusat) + r"\text{ mol/L (M)}")
-            elif satuan_asal == "Mol (mol)":
-                molaritas_pusat = nilai_asal * (1000 / v_ml)
-                st.latex(r"M = \text{mol} \times \frac{1000 \text{ mL/L}}{V_{\text{mL}}}")
-                st.latex(r"M = " + format_koma(nilai_asal) + r"\text{ mol} \times \frac{1000 \text{ mL/L}}{" + format_koma_v(v_ml) + r"\text{ mL}} = " + format_koma(molaritas_pusat) + r"\text{ mol/L (M)}")
-            elif satuan_asal == "Normalitas (N)":
-                molaritas_pusat = nilai_asal / val_val
-                st.latex(r"M = \frac{N}{\text{Valensi}}")
-                st.latex(r"M = \frac{" + format_koma(nilai_asal) + r"\text{ ekv/L}}{" + str(val_val) + r"\text{ ekv/mol}} = " + format_koma(molaritas_pusat) + r"\text{ mol/L (M)}")
-            elif satuan_asal == "Part Per Million (ppm)":
-                molaritas_pusat = nilai_asal / (mr_val * 1000)
-                st.latex(r"M = \frac{\text{ppm}}{\text{Mr} \times 1000 \text{ mg/g}}")
-                st.latex(r"M = \frac{" + format_koma(nilai_asal) + r"\text{ mg/L}}{" + format_koma(mr_val) + r"\text{ g/mol} \times 1000 \text{ mg/g}} = " + format_koma(molaritas_pusat) + r"\text{ mol/L (M)}")
-            elif satuan_asal == "Persen Bobot (% b/b)":
-                molaritas_pusat = (nilai_asal * rho_val * 10) / mr_val
-                st.latex(r"M = \frac{\% \times \rho \times 10 \text{ mL}\cdot\%/\text{L}}{\text{Mr}}")
-                st.latex(r"M = \frac{" + format_koma(nilai_asal) + r"\% \times " + format_koma(rho_val) + r"\text{ g/mL} \times 10 \text{ mL}\cdot\%/\text{L}}{" + format_koma(mr_val) + r"\text{ g/mol}} = " + format_koma(molaritas_pusat) + r"\text{ mol/L (M)}")
+        if satuan_asal == "Molaritas (M)":
+            molaritas_pusat = nilai_asal
+            langkah_ke_molaritas = f"Satuan asal sudah dalam Molaritas = {format_koma(molaritas_pusat)} M."
+        elif satuan_asal == "Massa (gram)":
+            molaritas_pusat = (nilai_asal / mr_val) * (1000 / v_ml)
+            langkah_ke_molaritas = f"1. Mengubah Massa ke Molaritas:\n   M = (gram / Mr) * (1000 / V_mL)\n   M = ({format_koma(nilai_asal)} / {format_koma(mr_val)}) * (1000 / {format_koma_v(v_ml)}) = {format_koma(molaritas_pusat)} M"
+        elif satuan_asal == "Mol (mol)":
+            molaritas_pusat = nilai_asal * (1000 / v_ml)
+            langkah_ke_molaritas = f"1. Mengubah Mol ke Molaritas:\n   M = mol * (1000 / V_mL)\n   M = {format_koma(nilai_asal)} * (1000 / {format_koma_v(v_ml)}) = {format_koma(molaritas_pusat)} M"
+        elif satuan_asal == "Normalitas (N)":
+            molaritas_pusat = nilai_asal / val_val
+            langkah_ke_molaritas = f"1. Mengubah Normalitas ke Molaritas:\n   M = N / Valensi\n   M = {format_koma(nilai_asal)} / {val_val} = {format_koma(molaritas_pusat)} M"
+        elif satuan_asal == "Part Per Million (ppm)":
+            molaritas_pusat = nilai_asal / (mr_val * 1000)
+            langkah_ke_molaritas = f"1. Mengubah ppm ke Molaritas:\n   M = ppm / (Mr * 1000)\n   M = {format_koma(nilai_asal)} / ({format_koma(mr_val)} * 1000) = {format_koma(molaritas_pusat)} M"
+        elif satuan_asal == "Persen Massa (% b/b)":
+            molaritas_pusat = (nilai_asal * rho_val * 10) / mr_val
+            langkah_ke_molaritas = f"1. Mengubah % b/b ke Molaritas:\n   M = (% * ρ * 10) / Mr\n   M = ({format_koma(nilai_asal)} * {format_koma(rho_val)} * 10) / {format_koma(mr_val)} = {format_koma(molaritas_pusat)} M"
 
-            st.markdown("**2. Konversi Molaritas Pusat (M) ke Satuan Target:**")
-            if satuan_tujuan == "Molaritas (M)":
-                hasil_akhir = molaritas_pusat
-                st.latex(r"\text{Hasil Akhir} = " + format_koma(hasil_akhir) + r"\text{ mol/L (M)}")
-            elif satuan_tujuan == "Massa (gram)":
-                hasil_akhir = (molaritas_pusat * mr_val * v_ml) / 1000
-                st.latex(r"\text{gram} = \frac{M \times \text{Mr} \times V_{\text{mL}}}{1000 \text{ mL/L}}")
-                st.latex(r"\text{gram} = \frac{" + format_koma(molaritas_pusat) + r"\text{ mol/L} \times " + format_koma(mr_val) + r"\text{ g/mol} \times " + format_koma_v(v_ml) + r"\text{ mL}}{1000 \text{ mL/L}} = " + format_koma(hasil_akhir) + r"\text{ gram}")
-            elif satuan_tujuan == "Mol (mol)":
-                hasil_akhir = (molaritas_pusat * v_ml) / 1000
-                st.latex(r"\text{mol} = \frac{M \times V_{\text{mL}}}{1000 \text{ mL/L}}")
-                st.latex(r"\text{mol} = \frac{" + format_koma(molaritas_pusat) + r"\text{ mol/L} \times " + format_koma_v(v_ml) + r"\text{ mL}}{1000 \text{ mL/L}} = " + format_koma(hasil_akhir) + r"\text{ mol}")
-            elif satuan_tujuan == "Normalitas (N)":
-                hasil_akhir = molaritas_pusat * val_val
-                st.latex(r"N = M \times \text{Valensi}")
-                st.latex(r"N = " + format_koma(molaritas_pusat) + r"\text{ mol/L} \times " + str(val_val) + r"\text{ ekv/mol} = " + format_koma(hasil_akhir) + r"\text{ ekv/L (N)}")
-            elif satuan_tujuan == "Part Per Million (ppm)":
-                hasil_akhir = molaritas_pusat * mr_val * 1000
-                st.latex(r"\text{ppm} = M \times \text{Mr} \times 1000 \text{ mg/g}")
-                st.latex(r"\text{ppm} = " + format_koma(molaritas_pusat) + r"\text{ mol/L} \times " + format_koma(mr_val) + r"\text{ g/mol} \times 1000 \text{ mg/g} = " + format_koma(hasil_akhir) + r"\text{ mg/L (ppm)}")
-            elif satuan_tujuan == "Persen Bobot (% b/b)":
-                hasil_akhir = (molaritas_pusat * mr_val) / (rho_val * 10)
-                st.latex(r"\% \text{ b/b} = \frac{M \times \text{Mr}}{\rho \times 10 \text{ mL}\cdot\%/\text{L}}")
-                st.latex(r"\% \text{ b/b} = \frac{" + format_koma(molaritas_pusat) + r"\text{ mol/L} \times " + format_koma(mr_val) + r"\text{ g/mol}}{" + format_koma(rho_val) + r"\text{ g/mL} \times 10 \text{ mL}\cdot\%/\text{L}} = " + format_koma(hasil_akhir) + r"\%")
+        hasil_akhir = 0.0
+        langkah_ke_tujuan = ""
+        
+        if satuan_tujuan == "Molaritas (M)":
+            hasil_akhir = molaritas_pusat
+            langkah_ke_tujuan = f"2. Satuan target adalah Molaritas = {format_koma(hasil_akhir)} M"
+        elif satuan_tujuan == "Massa (gram)":
+            hasil_akhir = (molaritas_pusat * mr_val * v_ml) / 1000
+            langkah_ke_tujuan = f"2. Mengubah Molaritas ke Massa:\n   gram = (M * Mr * V_mL) / 1000\n   gram = ({format_koma(molaritas_pusat)} * {format_koma(mr_val)} * {format_koma_v(v_ml)}) / 1000 = {format_koma(hasil_akhir)} gram"
+        elif satuan_tujuan == "Mol (mol)":
+            hasil_akhir = (molaritas_pusat * v_ml) / 1000
+            langkah_ke_tujuan = f"2. Mengubah Molaritas ke Jumlah Mol:\n   mol = (M * V_mL) / 1000\n   mol = ({format_koma(molaritas_pusat)} * {format_koma_v(v_ml)}) / 1000 = {format_koma(hasil_akhir)} mol"
+        elif satuan_tujuan == "Normalitas (N)":
+            hasil_akhir = molaritas_pusat * val_val
+            langkah_ke_tujuan = f"2. Mengubah Molaritas ke Normalitas:\n   N = M * Valensi\n   N = {format_koma(molaritas_pusat)} * {val_val} = {format_koma(hasil_akhir)} N"
+        elif satuan_tujuan == "Part Per Million (ppm)":
+            hasil_akhir = molaritas_pusat * mr_val * 1000
+            langkah_ke_tujuan = f"2. Mengubah Molaritas ke ppm:\n   ppm = M * Mr * 1000\n   ppm = {format_koma(molaritas_pusat)} * {format_koma(mr_val)} * 1000 = {format_koma(hasil_akhir)} ppm"
+        elif satuan_tujuan == "Persen Massa (% b/b)":
+            hasil_akhir = (molaritas_pusat * mr_val) / (rho_val * 10)
+            langkah_ke_tujuan = f"2. Mengubah Molaritas ke % b/b:\n   % b/b = (M * Mr) / (ρ * 10)\n   % b/b = ({format_koma(molaritas_pusat)} * {format_koma(mr_val)}) / ({format_koma(rho_val)} * 10) = {format_koma(hasil_akhir)} %"
 
-        st.success(f"Hasil Akhir Konversi: {format_koma(nilai_asal)} {satuan_asal} = {format_koma(hasil_akhir)} {satuan_tujuan}")
+        st.success(f"Hasil Konversi: {format_koma(nilai_asal)} {satuan_asal} = {format_koma(hasil_akhir)} {satuan_tujuan}")
+        
+        st.markdown("### 📝 Langkah Perhitungan Berdasarkan Alur Logika:")
+        st.info(f"{langkah_ke_molaritas}\n\n{langkah_ke_tujuan}")
 
 # ==========================================
 # MENU 3: FAKTOR PENGENCERAN
 # ==========================================
-elif menu == "3. Perhitungan Faktor Pengenceran":
+elif menu == "💧 Pengenceran":
     st.header("🧪 Perhitungan Pengenceran Larutan")
-    st.write("Gunakan prinsip stoikiometri pengenceran murni berbasis hukum kekekalan mol: $V_1 \\times M_1 = V_2 \\times M_2$")
     
     target_cari = st.selectbox(
         "Pilih Variabel yang Ingin Anda Cari:",
@@ -359,65 +332,73 @@ elif menu == "3. Perhitungan Faktor Pengenceran":
     
     if target_cari == "Konsentrasi Larutan Pekat (M1)":
         v1 = st.number_input("Masukkan Volume Larutan Pekat yang diambil (V1) dalam mL:", min_value=0.01, value=10.0)
-        m2 = st.number_input("Masukkan Konsentrasi Larutan Encer Terbentuk (M2) dalam M (atau N):", min_value=0.01, value=0.14)
+        m2 = st.number_input("Masukkan Konsentrasi Larutan Encer Terbentuk (M2):", min_value=0.01, value=0.14)
         v2 = st.number_input("Masukkan Volume Larutan Encer Terbentuk (V2) dalam mL:", min_value=0.01, value=100.0)
         
         if st.button("Hitung M1"):
             m1 = (m2 * v2) / v1
+            st.success(f"Hasil Perhitungan: Konsentrasi Larutan Pekat Asal (M1) = {format_koma(m1)} M (atau N)")
+            
             st.markdown("### 📝 Langkah Perhitungan:")
-            st.latex(r"V_1 \times M_1 = V_2 \times M_2")
-            st.latex(r"M_1 = \frac{V_2 \times M_2}{V_1}")
-            st.latex(r"M_1 = \frac{" + format_koma_v(v2) + r"\text{ mL} \times " + format_koma(m2) + r"\text{ M}}{" + format_koma_v(v1) + r"\text{ mL}} = " + format_koma(m1) + r"\text{ M}")
-            st.success(f"Hasil Akhir: Konsentrasi Larutan Pekat Asal (M1) = {format_koma(m1)} M (atau N)")
+            st.info(f"**Rumus Dasar:** V1 * M1 = V2 * M2\n\n"
+                    f"**Turunan Rumus:** M1 = (M2 * V2) / V1\n\n"
+                    f"**Proses Hitung:** M1 = ({format_koma(m2)} * {format_koma_v(v2)}) / {format_koma_v(v1)}\n\n"
+                    f"**Hasil Akhir:** {format_koma(m1)} M")
             
     elif target_cari == "Volume Larutan Pekat (V1)":
-        m1 = st.number_input("Masukkan Konsentrasi Larutan Pekat Asal (M1) dalam M (atau N):", min_value=0.01, value=12.0)
-        m2 = st.number_input("Masukkan Konsentrasi Larutan Encer yang Diinginkan (M2) dalam M (atau N):", min_value=0.01, value=0.5)
+        m1 = st.number_input("Masukkan Konsentrasi Larutan Pekat Asal (M1):", min_value=0.01, value=12.0)
+        m2 = st.number_input("Masukkan Konsentrasi Larutan Encer yang Diinginkan (M2):", min_value=0.01, value=0.5)
         v2 = st.number_input("Masukkan Volume Larutan Encer yang Diinginkan (V2) dalam mL:", min_value=0.01, value=500.0)
         
         if st.button("Hitung V1"):
             if m1 >= m2:
                 v1 = (m2 * v2) / m1
+                st.success(f"Hasil Perhitungan: Ambil {format_koma(v1)} mL larutan pekat (V1), lalu encerkan hingga {format_koma_v(v2)} mL.")
+                
                 st.markdown("### 📝 Langkah Perhitungan:")
-                st.latex(r"V_1 \times M_1 = V_2 \times M_2")
-                st.latex(r"V_1 = \frac{V_2 \times M_2}{M_1}")
-                st.latex(r"V_1 = \frac{" + format_koma_v(v2) + r"\text{ mL} \times " + format_koma(m2) + r"\text{ M}}{" + format_koma(m1) + r"\text{ M}} = " + format_koma(v1) + r"\text{ mL}")
-                st.success(f"Hasil Akhir: Ambil {format_koma(v1)} mL larutan pekat (V1), lalu encerkan hingga {format_koma_v(v2)} mL.")
+                st.info(f"**Rumus Dasar:** V1 * M1 = V2 * M2\n\n"
+                        f"**Turunan Rumus:** V1 = (M2 * V2) / M1\n\n"
+                        f"**Proses Hitung:** V1 = ({format_koma(m2)} * {format_koma_v(v2)}) / {format_koma(m1)}\n\n"
+                        f"**Hasil Akhir:** Ambil {format_koma(v1)} mL larutan pekat, tambahkan aquadest hingga volume total {format_koma_v(v2)} mL.")
             else:
                 st.error("Gagal: Konsentrasi awal (M1) tidak boleh lebih kecil dari konsentrasi akhir (M2)!")
 
     elif target_cari == "Konsentrasi Larutan Encer (M2)":
-        m1 = st.number_input("Masukkan Konsentrasi Larutan Pekat Asal (M1) dalam M (atau N):", min_value=0.01, value=2.0)
+        m1 = st.number_input("Masukkan Konsentrasi Larutan Pekat Asal (M1):", min_value=0.01, value=2.0)
         v1 = st.number_input("Masukkan Volume Larutan Pekat yang diambil (V1) dalam mL:", min_value=0.01, value=25.0)
         v2 = st.number_input("Masukkan Volume Larutan Setelah Diencerkan (V2) dalam mL:", min_value=0.01, value=250.0)
         
         if st.button("Hitung M2"):
             if v2 >= v1:
                 m2 = (m1 * v1) / v2
+                st.success(f"Hasil Perhitungan: Konsentrasi Larutan Setelah Diencerkan (M2) = {format_koma(m2)} M (atau N)")
+                
                 st.markdown("### 📝 Langkah Perhitungan:")
-                st.latex(r"V_1 \times M_1 = V_2 \times M_2")
-                st.latex(r"M_2 = \frac{V_1 \times M_1}{V_2}")
-                st.latex(r"M_2 = \frac{" + format_koma_v(v1) + r"\text{ mL} \times " + format_koma(m1) + r"\text{ M}}{" + format_koma_v(v2) + r"\text{ mL}} = " + format_koma(m2) + r"\text{ M}")
-                st.success(f"Hasil Akhir: Konsentrasi Larutan Setelah Diencerkan (M2) = {format_koma(m2)} M (atau N)")
+                st.info(f"**Rumus Dasar:** V1 * M1 = V2 * M2\n\n"
+                        f"**Turunan Rumus:** M2 = (M1 * V1) / V2\n\n"
+                        f"**Proses Hitung:** M2 = ({format_koma(m1)} * {format_koma_v(v1)}) / {format_koma_v(v2)}\n\n"
+                        f"**Hasil Akhir:** {format_koma(m2)} M")
             else:
                 st.error("Gagal: Volume akhir (V2) harus lebih besar daripada volume awal (V1)!")
 
     elif target_cari == "Volume Larutan Encer (V2)":
-        m1 = st.number_input("Masukkan Konsentrasi Larutan Pekat Asal (M1) dalam M (atau N):", min_value=0.01, value=6.0)
+        m1 = st.number_input("Masukkan Konsentrasi Larutan Pekat Asal (M1):", min_value=0.01, value=6.0)
         v1 = st.number_input("Masukkan Volume Larutan Pekat yang diambil (V1) dalam mL:", min_value=0.01, value=10.0)
-        m2 = st.number_input("Masukkan Konsentrasi Larutan Encer yang Diinginkan (M2) dalam M (atau N):", min_value=0.01, value=0.1)
+        m2 = st.number_input("Masukkan Konsentrasi Larutan Encer yang Diinginkan (M2):", min_value=0.01, value=0.1)
         
         if st.button("Hitung V2"):
             if m1 >= m2:
                 v2 = (m1 * v1) / m2
+                st.success(f"Hasil Perhitungan: Volume Akhir Larutan Encer (V2) = {format_koma_v(v2)} mL")
+                
                 st.markdown("### 📝 Langkah Perhitungan:")
-                st.latex(r"V_1 \times M_1 = V_2 \times M_2")
-                st.latex(r"V_2 = \frac{V_1 \times M_1}{M_2}")
-                st.latex(r"V_2 = \frac{" + format_koma_v(v1) + r"\text{ mL} \times " + format_koma(m1) + r"\text{ M}}{" + format_koma(m2) + r"\text{ M}} = " + format_koma_v(v2) + r"\text{ mL}")
-                st.success(f"Hasil Akhir: Volume Akhir Larutan Encer (V2) = {format_koma_v(v2)} mL")
+                st.info(f"**Rumus Dasar:** V1 * M1 = V2 * M2\n\n"
+                        f"**Turunan Rumus:** V2 = (M1 * V1) / M2\n\n"
+                        f"**Proses Hitung:** V2 = ({format_koma(m1)} * {format_koma_v(v1)}) / {format_koma(m2)}\n\n"
+                        f"**Hasil Akhir:** {format_koma_v(v2)} mL")
             else:
                 st.error("Gagal: Konsentrasi awal (M1) tidak boleh lebih kecil dari konsentrasi akhir (M2)!")
 
 # --- FOOTER ---
 st.markdown("---")
-st.caption("Aplikasi Logika Pemrograman & Komputer | Kelas 1A - Kelompok 7 | ©️ 2026")
+st.caption("Aplikasi Logika Pemrograman & Komputer | Kelompok 7 | © 2026")
