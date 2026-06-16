@@ -16,16 +16,6 @@ st.markdown("""
         background-attachment: fixed !important;
         color: #1e293b;
     }
-    .stApp::before {
-        content: "";
-        position: fixed;
-        top: 0; left: 0; width: 100%; height: 100%;
-        pointer-events: none; opacity: 0.08; z-index: 0;
-        background-image: 
-            url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 800'%3E%3Cg fill='none' stroke='%230284c7' stroke-width='3'%3E%3Cpath d='M80 650 L140 650 L120 530 L100 530 Z' /%3E%3Cpath d='M100 560 L140 560 M105 590 L135 590 M110 620 L130 620' /%3E%3Ccircle cx='190' cy='520' r='12' /%3E%3Ccircle cx='250' cy='490' r='18' /%3E%3Ccircle cx='290' cy='540' r='10' /%3E%3Cline x1='190' y1='520' x2='235' y2='495' /%3E%3Cline x1='250' y1='490' x2='290' y2='530' /%3E%3C/g%3E%3C/svg%3E"),
-            url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 800'%3E%3Cg fill='none' stroke='%230369a1' stroke-width='2.5'%3E%3Cpath d='M680 150 L680 190 L630 300 L730 300 L680 190' /%3E%3Cpath d='M645 270 L715 270 M655 240 L705 240' /%3E%3Cpolygon points='600,100 640,80 680,100 680,140 640,160 600,140' /%3E%3Cpolygon points='560,140 600,160 600,200 560,220 520,200 520,140' /%3E%3C/g%3E%3C/svg%3E");
-        background-position: left bottom, right top; background-repeat: no-repeat; background-size: 380px, 380px;
-    }
     div[data-testid="stSidebar"] {
         background-color: rgba(255, 255, 255, 0.9) !important;
         border-right: 1px solid #e2e8f0;
@@ -83,20 +73,20 @@ def hitung_bm_dari_teks(rumus):
 # ==========================================
 # SIDEBAR NAVIGASI
 # ==========================================
-st.sidebar.title("🧪 Kalkulator Kimia")
-st.sidebar.markdown("---")
+st.sidebar.title("🧪 Navigation")
 menu_pilih = st.sidebar.radio("Pilih Menu:", ["Home", "Bobot Molekul", "Konversi", "Pengenceran"])
 
 # ==========================================
-# LOGIKA HALAMAN (KUNCI UTAMA)
+# LOGIKA HALAMAN UTAMA (STRUKTUR DIPERBAIKI)
 # ==========================================
 
 if menu_pilih == "Home":
+    # Judul utama dan deskripsi diletakkan di dalam sini agar hanya muncul di Home
     st.title("🧪 Kalkulator Kimia")
     st.markdown("### Perhitungan Bobot Molekul, Konversi Satuan, dan Faktor Pengenceran")
     st.markdown("---")
     
-    # BOX INFORMASI MAKALAH HANYA ADA DI SINI
+    # BOX INFORMASI MAKALAH (Hanya muncul saat menu Home aktif)
     st.markdown("""
     <div class="identitas-box">
         <div style="color: #0369a1; font-weight: bold; font-size: 1.1rem; border-bottom: 2px solid #e2e8f0; padding-bottom: 5px; margin-bottom: 10px;">
@@ -126,9 +116,10 @@ if menu_pilih == "Home":
     """)
 
 elif menu_pilih == "Bobot Molekul":
+    # Ketika menu ini dipilih, bagian atas langsung bersih dan menampilkan elemen ini
     st.title("🔬 Perhitungan Bobot Molekul")
     st.markdown("---")
-    input_senyawa = st.text_input("Masukkan Rumus Kimia Senyawa:", "H2SO4")
+    input_senyawa = st.text_input("Masukkan Rumus Kimia Senyawa (Contoh: H2SO4, NaOH):", "H2SO4")
     if st.button("Hitung BM / Mr"):
         if input_senyawa:
             bm, error_unsur, cara_teks = hitung_bm_dari_teks(input_senyawa)
@@ -145,15 +136,17 @@ elif menu_pilih == "Konversi":
     val_val = st.number_input("Valensi / Ekivalen Zat (n):", min_value=1, value=2)
     rho_val = st.number_input("Massa Jenis Larutan / ρ (g/mL):", min_value=0.01, value=1.0)
     
-    satuan_asal = st.selectbox("Pilih Satuan Asal:", ["Molaritas (M)", "Normalitas (N)", "Persen Massa (% b/b)"])
-    satuan_tujuan = st.selectbox("Pilih Satuan Tujuan:", ["Normalitas (N)", "Molaritas (M)", "Part Per Million (ppm)"])
+    satuan_asal = st.selectbox("Pilih Satuan Asal:", ["Molaritas (M)", "Normalitas (N)"])
+    satuan_tujuan = st.selectbox("Pilih Satuan Tujuan:", ["Normalitas (N)", "Molaritas (M)"])
     nilai_asal = st.number_input(f"Masukkan Nilai {satuan_asal}:", min_value=0.0, value=1.0)
     
     if st.button("Proses Konversi"):
-        # Logika sederhana konversi sampel
         if satuan_asal == "Molaritas (M)" and satuan_tujuan == "Normalitas (N)":
             hasil = nilai_asal * val_val
             st.success(f"Hasil: {format_koma(hasil)} N")
+        elif satuan_asal == "Normalitas (N)" and satuan_tujuan == "Molaritas (M)":
+            hasil = nilai_asal / val_val
+            st.success(f"Hasil: {format_koma(hasil)} M")
 
 elif menu_pilih == "Pengenceran":
     st.title("🧪 Perhitungan Pengenceran Larutan")
