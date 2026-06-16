@@ -133,12 +133,10 @@ def hitung_bm_dari_teks(rumus):
     cara_teks = " + ".join(rincian)
     return total_bm, unsur_tidak_dikenal, cara_teks
 
-# ==========================================
-# HALAMAN UTAMA & SIDEBAR NAVIGASI MENU
-# ==========================================
-st.title("🧪 Kalkulator Kimia")
-st.markdown("### Perhitungan Bobot Molekul, Konversi Satuan, dan Faktor Pengenceran")
 
+# ==========================================
+# SIDEBAR NAVIGASI MENU
+# ==========================================
 st.sidebar.title("🧪 Kalkulator Kimia")
 st.sidebar.markdown("---")
 menu = st.sidebar.radio(
@@ -146,13 +144,18 @@ menu = st.sidebar.radio(
     ["🏠 Home", "🧪 Bobot Molekul", "🔄 Konversi", "💧 Pengenceran"]
 )
 
-st.markdown("---")
 
 # ==========================================
-# LOGIKA NAVIGASI MENU (KUNCI PERBAIKAN)
+# JALUR LOGIKA NAVIGASI (KUNCI PERBAIKAN UTAMA)
 # ==========================================
+
 if menu == "🏠 Home":
-    # Box Identitas Makalah diletakkan di dalam Home agar tidak muncul di menu lain
+    # Judul utama aplikasi dipindah ke sini agar HANYA muncul di Home
+    st.title("🧪 Kalkulator Kimia")
+    st.markdown("### Perhitungan Bobot Molekul, Konversi Satuan, dan Faktor Pengenceran")
+    st.markdown("---")
+
+    # Box Identitas Makalah Kelompok 7 dimasukkan ke dalam Home
     st.markdown("""
     <div class="identitas-box">
         <div style="color: #0369a1; font-weight: bold; font-size: 1.1rem; border-bottom: 2px solid #e2e8f0; padding-bottom: 5px; margin-bottom: 10px;">
@@ -195,7 +198,8 @@ if menu == "🏠 Home":
 # MENU 1: BOBOT MOLEKUL (BM/Mr)
 # ==========================================
 elif menu == "🧪 Bobot Molekul":
-    st.header("🔬 Perhitungan Bobot Molekul")
+    st.title("🔬 Perhitungan Bobot Molekul")
+    st.markdown("---")
     
     input_senyawa = st.text_input("Masukkan Rumus Kimia Senyawa (Contoh: H2SO4, Ca(OH)2, NaCl):", "H2SO4")
     
@@ -221,7 +225,8 @@ elif menu == "🧪 Bobot Molekul":
 # MENU 2: KONVERSI SATUAN KIMIA
 # ==========================================
 elif menu == "🔄 Konversi":
-    st.header("🔄 Konversi Hubungan Satuan Kimia")
+    st.title("🔄 Konversi Hubungan Satuan Kimia")
+    st.markdown("---")
     
     c1, c2, c3 = st.columns(3)
     with c1:
@@ -317,7 +322,8 @@ elif menu == "🔄 Konversi":
 # MENU 3: FAKTOR PENGENCERAN
 # ==========================================
 elif menu == "💧 Pengenceran":
-    st.header("🧪 Perhitungan Pengenceran Larutan")
+    st.title("🧪 Perhitungan Pengenceran Larutan")
+    st.markdown("---")
     
     target_cari = st.selectbox(
         "Pilih Variabel yang Ingin Anda Cari:",
