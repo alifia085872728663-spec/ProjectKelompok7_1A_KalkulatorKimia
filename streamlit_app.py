@@ -73,20 +73,19 @@ def hitung_bm_dari_teks(rumus):
 # ==========================================
 # SIDEBAR NAVIGASI
 # ==========================================
-st.sidebar.title("🧪 Navigation")
-menu_pilih = st.sidebar.radio("Pilih Menu:", ["Home", "Bobot Molekul", "Konversi", "Pengenceran"])
+st.sidebar.title("Menu")
+menu_pilih = st.sidebar.radio("", ["Home", "Bobot Molekul", "Konversi", "Pengenceran"])
 
 # ==========================================
-# LOGIKA HALAMAN UTAMA (STRUKTUR DIPERBAIKI)
+# LOGIKA STRUKTUR HALAMAN UTAMA
 # ==========================================
 
 if menu_pilih == "Home":
-    # Judul utama dan deskripsi diletakkan di dalam sini agar hanya muncul di Home
     st.title("🧪 Kalkulator Kimia")
     st.markdown("### Perhitungan Bobot Molekul, Konversi Satuan, dan Faktor Pengenceran")
     st.markdown("---")
     
-    # BOX INFORMASI MAKALAH (Hanya muncul saat menu Home aktif)
+    # BOX IDENTITAS (Sekarang terkunci aman di dalam blok Home)
     st.markdown("""
     <div class="identitas-box">
         <div style="color: #0369a1; font-weight: bold; font-size: 1.1rem; border-bottom: 2px solid #e2e8f0; padding-bottom: 5px; margin-bottom: 10px;">
@@ -116,18 +115,19 @@ if menu_pilih == "Home":
     """)
 
 elif menu_pilih == "Bobot Molekul":
-    # Ketika menu ini dipilih, bagian atas langsung bersih dan menampilkan elemen ini
     st.title("🔬 Perhitungan Bobot Molekul")
     st.markdown("---")
-    input_senyawa = st.text_input("Masukkan Rumus Kimia Senyawa (Contoh: H2SO4, NaOH):", "H2SO4")
+    input_senyawa = st.text_input("Masukkan Rumus Kimia Senyawa (Contoh: H2SO4, Ca(OH)2, NaCl):", "H2SO4")
     if st.button("Hitung BM / Mr"):
         if input_senyawa:
             bm, error_unsur, cara_teks = hitung_bm_dari_teks(input_senyawa)
-            if error_unsur: st.error(f"Unsur tidak dikenal: {', '.join(error_unsur)}.")
+            if error_unsur: 
+                st.error(f"Unsur tidak dikenal: {', '.join(error_unsur)}. Gunakan huruf besar di awal unsur (Contoh: 'NaOH' bukan 'naoh').")
             else:
                 st.success(f"Bobot Molekul (BM) dari {input_senyawa} adalah: {format_koma(bm)} g/mol")
                 st.info(f"**Proses Hitung:** Mr = {cara_teks}")
-        else: st.warning("Silakan isi rumus kimia.")
+        else: 
+            st.warning("Silakan isi rumus kimia.")
 
 elif menu_pilih == "Konversi":
     st.title("🔄 Konversi Hubungan Satuan Kimia")
@@ -143,10 +143,10 @@ elif menu_pilih == "Konversi":
     if st.button("Proses Konversi"):
         if satuan_asal == "Molaritas (M)" and satuan_tujuan == "Normalitas (N)":
             hasil = nilai_asal * val_val
-            st.success(f"Hasil: {format_koma(hasil)} N")
+            st.success(f"Hasil Konversi: {format_koma(nilai_asal)} M = {format_koma(hasil)} N")
         elif satuan_asal == "Normalitas (N)" and satuan_tujuan == "Molaritas (M)":
             hasil = nilai_asal / val_val
-            st.success(f"Hasil: {format_koma(hasil)} M")
+            st.success(f"Hasil Konversi: {format_koma(nilai_asal)} N = {format_koma(hasil)} M")
 
 elif menu_pilih == "Pengenceran":
     st.title("🧪 Perhitungan Pengenceran Larutan")
@@ -157,8 +157,9 @@ elif menu_pilih == "Pengenceran":
     if st.button("Hitung V1"):
         if m1 >= m2:
             v1 = (m2 * v2) / m1
-            st.success(f"Ambil {format_koma(v1)} mL larutan pekat, encerkan hingga {format_koma_v(v2)} mL.")
-        else: st.error("M1 harus lebih besar dari M2!")
+            st.success(f"Hasil: Ambil {format_koma(v1)} mL larutan pekat (V1), lalu encerkan hingga {format_koma_v(v2)} mL.")
+        else: 
+            st.error("Gagal: Konsentrasi awal (M1) harus lebih besar dari M2!")
 
 # --- FOOTER ---
 st.markdown("---")
