@@ -135,22 +135,22 @@ def hitung_bm_dari_teks(rumus):
 
 
 # ==========================================
-# SIDEBAR NAVIGASI MENU
+# SIDEBAR NAVIGASI MENU (DENGAN KEY BARU)
 # ==========================================
 st.sidebar.title("🧪 Kalkulator Kimia")
 st.sidebar.markdown("---")
 menu = st.sidebar.radio(
     "Menu",
-    ["🏠 Home", "🧪 Bobot Molekul", "🔄 Konversi", "💧 Pengenceran"]
+    ["🏠 Home", "🧪 Bobot Molekul", "🔄 Konversi", "💧 Pengenceran"],
+    key="menu_kalkulator_kimia_v2"
 )
 
 
 # ==========================================
-# JALUR LOGIKA NAVIGASI (KUNCI PERBAIKAN UTAMA)
+# JALUR LOGIKA NAVIGASI 
 # ==========================================
 
 if menu == "🏠 Home":
-    # Judul utama aplikasi dipindah ke sini agar HANYA muncul di Home
     st.title("🧪 Kalkulator Kimia")
     st.markdown("### Perhitungan Bobot Molekul, Konversi Satuan, dan Faktor Pengenceran")
     st.markdown("---")
