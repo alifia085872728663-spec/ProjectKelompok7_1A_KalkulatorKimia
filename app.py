@@ -135,22 +135,21 @@ def hitung_bm_dari_teks(rumus):
 
 
 # ==========================================
-# SIDEBAR NAVIGASI MENU (DENGAN KEY BARU)
+# SIDEBAR NAVIGASI MENU (MENGGUNAKAN ELEMEN BARU)
 # ==========================================
 st.sidebar.title("🧪 Kalkulator Kimia")
 st.sidebar.markdown("---")
-menu = st.sidebar.radio(
-    "Menu",
-    ["🏠 Home", "🧪 Bobot Molekul", "🔄 Konversi", "💧 Pengenceran"],
-    key="menu_kalkulator_kimia_v2"
-)
+
+# Menggunakan format list teks bersih tanpa emoji di dalam sistem pengecekan
+pilihan_menu = ["Home", "Bobot Molekul", "Konversi", "Pengenceran"]
+menu_pilih = st.sidebar.radio("Pilih Menu:", pilihan_menu, index=0)
 
 
 # ==========================================
-# JALUR LOGIKA NAVIGASI 
+# JALUR LOGIKA NAVIGASI (DIPISAH TOTAL)
 # ==========================================
 
-if menu == "🏠 Home":
+if menu_pilih == "Home":
     st.title("🧪 Kalkulator Kimia")
     st.markdown("### Perhitungan Bobot Molekul, Konversi Satuan, dan Faktor Pengenceran")
     st.markdown("---")
@@ -197,7 +196,7 @@ if menu == "🏠 Home":
 # ==========================================
 # MENU 1: BOBOT MOLEKUL (BM/Mr)
 # ==========================================
-elif menu == "🧪 Bobot Molekul":
+elif menu_pilih == "Bobot Molekul":
     st.title("🔬 Perhitungan Bobot Molekul")
     st.markdown("---")
     
@@ -224,7 +223,7 @@ elif menu == "🧪 Bobot Molekul":
 # ==========================================
 # MENU 2: KONVERSI SATUAN KIMIA
 # ==========================================
-elif menu == "🔄 Konversi":
+elif menu_pilih == "Konversi":
     st.title("🔄 Konversi Hubungan Satuan Kimia")
     st.markdown("---")
     
@@ -321,7 +320,7 @@ elif menu == "🔄 Konversi":
 # ==========================================
 # MENU 3: FAKTOR PENGENCERAN
 # ==========================================
-elif menu == "💧 Pengenceran":
+elif menu_pilih == "Pengenceran":
     st.title("🧪 Perhitungan Pengenceran Larutan")
     st.markdown("---")
     
