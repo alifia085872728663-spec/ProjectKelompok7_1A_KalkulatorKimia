@@ -134,61 +134,62 @@ def hitung_bm_dari_teks(rumus):
     return total_bm, unsur_tidak_dikenal, cara_teks
 
 # ==========================================
-# HALAMAN UTAMA (SELALU MUNCUL DI ATAS)
+# HALAMAN UTAMA & SIDEBAR NAVIGASI MENU
 # ==========================================
 st.title("🧪 Kalkulator Kimia")
 st.markdown("### Perhitungan Bobot Molekul, Konversi Satuan, dan Faktor Pengenceran")
 
-st.markdown("""
-<div class="identitas-box">
-    <div style="color: #0369a1; font-weight: bold; font-size: 1.1rem; border-bottom: 2px solid #e2e8f0; padding-bottom: 5px; margin-bottom: 10px;">
-        📄 INFORMASI PROJECT MAKALAH
-    </div>
-    <table style="width:100%; border:none; color:#334155; font-size:0.95rem; line-height: 1.6;">
-        <tr><td style="width: 25%; font-weight: bold;">Mata Kuliah</td><td>: Logika Pemrograman dan Komputer</td></tr>
-        <tr><td style="font-weight: bold;">Kelompok</td><td>: Kelompok 7</td></tr>
-        <tr><td style="vertical-align: top; font-weight: bold;">Anggota</td><td>: 
-            <table style="width:100%; margin-top:-2px; border:none; color:#334155;">
-                <tr><td>• 2560556 - AFFAN IHSANUL FATAH</td><td>• 2560618 - ELVIA ELVARITTA</td></tr>
-                <tr><td>• 2560765 - MUHAMMAD AQIL</td><td>• 2560739 - RAFI ALIFIA SHARIATI</td></tr>
-                <tr><td>• 2560796 - TIARA APRILIANTI</td><td></td></tr>
-            </table>
-        </td></tr>
-    </table>
-</div>
-""", unsafe_allow_html=True)
-
-# ==========================================
-# SIDEBAR NAVIGASI MENU (3 POIN UTAMA)
-# ==========================================
 st.sidebar.title("🧪 Kalkulator Kimia")
 st.sidebar.markdown("---")
 menu = st.sidebar.radio(
     "Menu",
-    ["🏠 Home","🧪 Bobot Molekul","🔄 Konversi","💧 Pengenceran"]
+    ["🏠 Home", "🧪 Bobot Molekul", "🔄 Konversi", "💧 Pengenceran"]
 )
 
 st.markdown("---")
 
+# ==========================================
+# LOGIKA NAVIGASI MENU (KUNCI PERBAIKAN)
+# ==========================================
 if menu == "🏠 Home":
+    # Box Identitas Makalah diletakkan di dalam Home agar tidak muncul di menu lain
+    st.markdown("""
+    <div class="identitas-box">
+        <div style="color: #0369a1; font-weight: bold; font-size: 1.1rem; border-bottom: 2px solid #e2e8f0; padding-bottom: 5px; margin-bottom: 10px;">
+            📄 INFORMASI PROJECT MAKALAH
+        </div>
+        <table style="width:100%; border:none; color:#334155; font-size:0.95rem; line-height: 1.6;">
+            <tr><td style="width: 25%; font-weight: bold;">Mata Kuliah</td><td>: Logika Pemrograman dan Komputer</td></tr>
+            <tr><td style="font-weight: bold;">Kelompok</td><td>: Kelompok 7</td></tr>
+            <tr><td style="vertical-align: top; font-weight: bold;">Anggota</td><td>: 
+                <table style="width:100%; margin-top:-2px; border:none; color:#334155;">
+                    <tr><td>• 2560556 - AFFAN IHSANUL FATAH</td><td>• 2560618 - ELVIA ELVARITTA</td></tr>
+                    <tr><td>• 2560765 - MUHAMMAD AQIL</td><td>• 2560739 - RAFI ALIFIA SHARIATI</td></tr>
+                    <tr><td>• 2560796 - TIARA APRILIANTI</td><td></td></tr>
+                </table>
+            </td></tr>
+        </table>
+    </div>
+    """, unsafe_allow_html=True)
+
     st.header("🏠 Home")
     st.markdown("""
-## Selamat Datang
+    ## Selamat Datang
 
-Aplikasi **Kalkulator Kimia** ini dibuat untuk membantu melakukan
-perhitungan kimia dengan cepat, mudah, dan akurat.
+    Aplikasi **Kalkulator Kimia** ini dibuat untuk membantu melakukan
+    perhitungan kimia dengan cepat, mudah, dan akurat.
 
-### Fitur
-- 🧪 Perhitungan Bobot Molekul (BM/Mr)
-- 🔄 Konversi Satuan Kimia
-- 💧 Perhitungan Faktor Pengenceran
+    ### Fitur
+    - 🧪 Perhitungan Bobot Molekul (BM/Mr)
+    - 🔄 Konversi Satuan Kimia
+    - 💧 Perhitungan Faktor Pengenceran
 
-### Cara Menggunakan
-1. Pilih menu di sidebar.
-2. Masukkan data yang diperlukan.
-3. Tekan tombol **Hitung**.
-4. Hasil dan langkah perhitungan akan ditampilkan.
-""")
+    ### Cara Menggunakan
+    1. Pilih menu di sidebar.
+    2. Masukkan data yang diperlukan.
+    3. Tekan tombol **Hitung**.
+    4. Hasil dan langkah perhitungan akan ditampilkan.
+    """)
 
 # ==========================================
 # MENU 1: BOBOT MOLEKUL (BM/Mr)
@@ -234,7 +235,7 @@ elif menu == "🔄 Konversi":
     
     daftar_satuan = [
         "Massa (gram)", "Mol (mol)", "Molaritas (M)", 
-        "Normalitas (N)", "Part Per Million (ppm)", "Persen Bobot (% b/b)"
+        "Normalitas (N)", "Part Per Million (ppm)", "Persen Massa (% b/b)"
     ]
     
     col_from, col_to = st.columns(2)
