@@ -161,31 +161,40 @@ st.markdown("""
 # ==========================================
 # SIDEBAR NAVIGASI MENU (3 POIN UTAMA)
 # ==========================================
-st.sidebar.header("🧭 Menu Fitur")
+st.sidebar.title("🧪 Kalkulator Kimia")
+st.sidebar.markdown("---")
 menu = st.sidebar.radio(
-    "Silakan Pilih Fitur Perhitungan:",
-    [
-        "Silakan Pilih...",
-        "1. Perhitungan Bobot Molekul (BM/Mr)", 
-        "2. Konversi Satuan Kimia", 
-        "3. Perhitungan Faktor Pengenceran"
-    ]
+    "Menu",
+    ["🏠 Home","🧪 Bobot Molekul","🔄 Konversi","💧 Pengenceran"]
 )
 
 st.markdown("---")
 
-# ==========================================
-# KONDISI JIKA BELUM MEMILIH MENU
-# ==========================================
-if menu == "Silakan Pilih...":
-    st.info("💡 **Petunjuk Penggunaan:** Silakan gunakan **Menu Fitur** di sebelah kiri (sidebar) untuk memilih jenis kalkulator kimia yang ingin Anda operasikan.")
+if menu == "🏠 Home":
+    st.header("🏠 Home")
+    st.markdown("""
+## Selamat Datang
+
+Aplikasi **Kalkulator Kimia** ini dibuat untuk membantu melakukan
+perhitungan kimia dengan cepat, mudah, dan akurat.
+
+### Fitur
+- 🧪 Perhitungan Bobot Molekul (BM/Mr)
+- 🔄 Konversi Satuan Kimia
+- 💧 Perhitungan Faktor Pengenceran
+
+### Cara Menggunakan
+1. Pilih menu di sidebar.
+2. Masukkan data yang diperlukan.
+3. Tekan tombol **Hitung**.
+4. Hasil dan langkah perhitungan akan ditampilkan.
+""")
 
 # ==========================================
 # MENU 1: BOBOT MOLEKUL (BM/Mr)
 # ==========================================
-elif menu == "1. Perhitungan Bobot Molekul (BM/Mr)":
+elif menu == "🧪 Bobot Molekul":
     st.header("🔬 Perhitungan Bobot Molekul")
-    st.write("Ketik rumus molekul senyawa kimia secara langsung untuk mengetahui berat molekul beserta langkah detailnya.")
     
     input_senyawa = st.text_input("Masukkan Rumus Kimia Senyawa (Contoh: H2SO4, Ca(OH)2, NaCl):", "H2SO4")
     
@@ -210,9 +219,8 @@ elif menu == "1. Perhitungan Bobot Molekul (BM/Mr)":
 # ==========================================
 # MENU 2: KONVERSI SATUAN KIMIA
 # ==========================================
-elif menu == "2. Konversi Satuan Kimia":
+elif menu == "🔄 Konversi":
     st.header("🔄 Konversi Hubungan Satuan Kimia")
-    st.write("Tentukan satuan awal dan tujuan konversi. Fitur ini mendukung konversi Massa, Mol, Molaritas, Normalitas, ppm, dan Persen Bobot.")
     
     c1, c2, c3 = st.columns(3)
     with c1:
@@ -307,9 +315,8 @@ elif menu == "2. Konversi Satuan Kimia":
 # ==========================================
 # MENU 3: FAKTOR PENGENCERAN
 # ==========================================
-elif menu == "3. Perhitungan Faktor Pengenceran":
+elif menu == "💧 Pengenceran":
     st.header("🧪 Perhitungan Pengenceran Larutan")
-    st.write("Gunakan prinsip stoikiometri pengenceran murni berbasis hukum kekekalan mol: $V_1 \\times M_1 = V_2 \\times M_2$")
     
     target_cari = st.selectbox(
         "Pilih Variabel yang Ingin Anda Cari:",
