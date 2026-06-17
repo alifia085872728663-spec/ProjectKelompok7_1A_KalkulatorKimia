@@ -43,13 +43,6 @@ st.markdown("""
     .feature-title { color: #0f766e; font-weight: bold; font-size: 1.05rem; margin-bottom: 5px; }
     .feature-desc { color: #334155; font-size: 0.92rem; line-height: 1.5; }
     
-    /* Box Petunjuk Navigasi Baru */
-    .nav-instruction-box {
-        background-color: #e0f2fe; color: #0369a1; padding: 15px; border-radius: 8px;
-        border: 1px solid #bae6fd; margin-top: 25px; font-size: 0.95rem; font-weight: 500;
-        display: flex; align-items: center; gap: 10px;
-    }
-    
     .stButton>button {
         background-color: #0f766e !important; color: white !important;
         border-radius: 8px !important; font-weight: bold !important; border: none !important;
@@ -169,14 +162,11 @@ if menu_pilih == "🏠 Home":
         </div>
         """, unsafe_allow_html=True)
 
-    # --- BOX PETUNJUK NAVIGASI DI BAGIAN BAWAH ---
-    st.markdown("""
-    <div class="nav-instruction-box">
-        💡 <b>Petunjuk Penggunaan:</b> Seluruh fitur perhitungan di atas dapat diakses langsung melalui 
-        <b>Menu Navigasi di Sebelah Kiri Atas Layar</b>. Jika menu tidak terlihat, silakan klik tanda panah 
-        &nbsp;<b>&gt;</b>&nbsp; di pojok kiri atas untuk membuka panel navigasi halaman.
-    </div>
-    """, unsafe_allow_html=True)
+    # --- PERBAIKAN TOTAL BOX PETUNJUK (MURNI STREAMLIT INFO) ---
+    st.markdown("<br>", unsafe_allow_html=True)
+    st.info("**💡 Petunjuk Penggunaan:**\n\n"
+            "Seluruh fitur perhitungan di atas dapat diakses langsung melalui **Menu Navigasi di Sebelah Kiri Atas Layar**. "
+            "Jika menu samping tidak terlihat, silakan klik tanda panah **( > )** di pojok kiri paling atas untuk membuka panel navigasi halaman.")
 
 elif menu_pilih == "🔬 Bobot Molekul":
     st.title("🔬 Perhitungan Bobot Molekul")
