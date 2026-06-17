@@ -8,30 +8,55 @@ st.set_page_config(
     layout="centered"
 )
 
-# --- STYLE CSS (GRADASI & ELEMEN KIMIA) ---
+# --- STYLE CSS CUSTOM (DESAIN INTERAKTIF & ELEGAN) ---
 st.markdown("""
     <style>
     .stApp {
-        background: linear-gradient(135deg, #e0f2fe 0%, #ffffff 50%, #fef9c3 100%) !important;
-        background-attachment: fixed !important;
+        background: linear-gradient(135deg, #eef2f3 0%, #ffffff 100%) !important;
         color: #1e293b;
     }
     div[data-testid="stSidebar"] {
-        background-color: rgba(255, 255, 255, 0.9) !important;
+        background-color: #ffffff !important;
         border-right: 1px solid #e2e8f0;
     }
-    h1, h2, h3 { color: #0369a1 !important; font-weight: 700; }
+    h1, h2, h3 { color: #0f766e !important; font-weight: 700; }
+    
+    /* Box Identitas Kelompok */
     .identitas-box {
-        background-color: rgba(255, 255, 255, 0.8); padding: 20px; border-radius: 12px;
-        border-left: 5px solid #0ea5e9; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        background-color: #ffffff; padding: 20px; border-radius: 12px;
+        border-left: 5px solid #0f766e; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
         margin-top: 10px; margin-bottom: 25px;
     }
+    
+    /* Box Fitur Menu Home (Gaya Kartu Aplikasi Modern) */
+    .feature-card {
+        background-color: #fafafa;
+        padding: 15px;
+        border-radius: 8px;
+        border: 1px solid #e2e8f0;
+        border-left: 4px solid #0f766e;
+        margin-top: 5px;
+        margin-bottom: 5px;
+    }
+    .feature-title {
+        color: #0f766e;
+        font-weight: bold;
+        font-size: 1.05rem;
+        margin-bottom: 5px;
+    }
+    .feature-desc {
+        color: #334155;
+        font-size: 0.92rem;
+        line-height: 1.5;
+    }
+    
+    /* Desain Tombol Hitung */
     .stButton>button {
-        background-color: #0ea5e9 !important; color: white !important;
+        background-color: #0f766e !important; color: white !important;
         border-radius: 8px !important; font-weight: bold !important; border: none !important;
         width: 100%; padding: 10px 0px;
     }
-    .stButton>button:hover { background-color: #0284c7 !important; }
+    .stButton>button:hover { background-color: #0d9488 !important; }
     </style>
     """, unsafe_allow_html=True)
 
@@ -71,24 +96,27 @@ def hitung_bm_dari_teks(rumus):
     return total_bm, unsur_tidak_dikenal, " + ".join(rincian)
 
 # ==========================================
-# SIDEBAR NAVIGASI
+# SIDEBAR NAVIGASI DENGAN EMOTIKON
 # ==========================================
-st.sidebar.title("Menu")
-menu_pilih = st.sidebar.radio("", ["Home", "Bobot Molekul", "Konversi", "Pengenceran"])
+st.sidebar.title("Navigation")
+menu_pilih = st.sidebar.radio(
+    "Pilih Halaman:", 
+    ["🏠 Home", "🔬 Bobot Molekul", "🔄 Konversi Satuan", "💧 Faktor Pengenceran"]
+)
 
 # ==========================================
-# LOGIKA STRUKTUR HALAMAN UTAMA
+# LOGIKA HALAMAN UTAMA
 # ==========================================
 
-if menu_pilih == "Home":
+if menu_pilih == "🏠 Home":
     st.title("🧪 Kalkulator Kimia")
     st.markdown("### Perhitungan Bobot Molekul, Konversi Satuan, dan Faktor Pengenceran")
     st.markdown("---")
     
-    # BOX IDENTITAS (Sekarang terkunci aman di dalam blok Home)
+    # BOX INFORMASI MAKALAH (Desain Eksklusif di Home saja)
     st.markdown("""
     <div class="identitas-box">
-        <div style="color: #0369a1; font-weight: bold; font-size: 1.1rem; border-bottom: 2px solid #e2e8f0; padding-bottom: 5px; margin-bottom: 10px;">
+        <div style="color: #0f766e; font-weight: bold; font-size: 1.1rem; border-bottom: 2px solid #e2e8f0; padding-bottom: 5px; margin-bottom: 10px;">
             📄 INFORMASI PROJECT MAKALAH
         </div>
         <table style="width:100%; border:none; color:#334155; font-size:0.95rem; line-height: 1.6;">
@@ -105,16 +133,53 @@ if menu_pilih == "Home":
     </div>
     """, unsafe_allow_html=True)
 
-    st.markdown("""
-    ## Selamat Datang
-    Aplikasi **Kalkulator Kimia** ini dibuat untuk membantu melakukan perhitungan kimia dengan cepat, mudah, dan akurat.
-    ### Fitur
-    - 🧪 Perhitungan Bobot Molekul (BM/Mr)
-    - 🔄 Konversi Satuan Kimia
-    - 💧 Perhitungan Faktor Pengenceran
-    """)
+    st.markdown("## 📚 Menu Aplikasi & Penjelasan Fungsi")
+    st.write("Klik masing-masing kotak di bawah ini untuk membaca penjelasan detail kegunaan fiturnya:")
 
-elif menu_pilih == "Bobot Molekul":
+    # --- KOTAK CARD INTERAKTIF 1 ---
+    with st.expander("🔬 FITUR 1: Perhitungan Bobot Molekul (BM / Mr)"):
+        st.markdown("""
+        <div class="feature-card">
+            <div class="feature-title">Deskripsi Fungsi Bobot Molekul</div>
+            <div class="feature-desc">
+                Fitur ini digunakan untuk menghitung nilai <b>Massa Molar / Massa Molekul Relatif (Mr)</b> dari senyawa kimia secara otomatis. 
+                Sistem akan membedah setiap atom penyusun, mengalikannya dengan bobot atom standar (Ar) tabel periodik, lalu menjumlahkannya secara runtut.
+                <br><br>
+                <b>💡 Contoh Penggunaan:</b> Masukkan rumus molekul seperti <code>H2SO4</code> atau <code>Ca(OH)2</code> untuk mengetahui berat molekul total beserta langkah pengerjaannya.
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+
+    # --- KOTAK CARD INTERAKTIF 2 ---
+    with st.expander("🔄 FITUR 2: Konversi Hubungan Satuan Kimia"):
+        st.markdown("""
+        <div class="feature-card">
+            <div class="feature-title">Deskripsi Fungsi Konversi Satuan</div>
+            <div class="feature-desc">
+                Membantu analis atau mahasiswa kimia dalam melakukan konversi antarsatuan konsentrasi larutan tanpa harus menghitung manual. 
+                Fitur ini fokus menjembatani perhitungan hubungan satuan yang paling sering dipakai di dalam laboratorium kimia analisis.
+                <br><br>
+                <b>💡 Contoh Penggunaan:</b> Anda dapat memasukkan nilai konsentrasi larutan dalam bentuk <b>Molaritas (M)</b> untuk langsung dikonversi menjadi satuan <b>Normalitas (N)</b> atau sebaliknya berdasarkan nilai valensi zat.
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+
+    # --- KOTAK CARD INTERAKTIF 3 ---
+    with st.expander("💧 FITUR 3: Perhitungan Faktor Pengenceran"):
+        st.markdown("""
+        <div class="feature-card">
+            <div class="feature-title">Deskripsi Fungsi Faktor Pengenceran</div>
+            <div class="feature-desc">
+                Digunakan untuk menghitung kebutuhan volume larutan induk (pekat) yang harus diambil sebelum diencerkan ke konsentrasi yang lebih rendah. Perhitungan ini menerapkan asas rumus stoikiometri pengenceran klasik yaitu:
+                <br><br>
+                <center><b>M1 × V1 = M2 × V2</b></center>
+                <br>
+                <b>💡 Contoh Penggunaan:</b> Masukkan kadar larutan pekat yang Anda miliki (M1), kadar larutan encer yang ingin dibuat (M2), dan volume akhir yang dicari (V2). Sistem akan menampilkan jumlah mL larutan pekat yang wajib dipipet.
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+
+elif menu_pilih == "🔬 Bobot Molekul":
     st.title("🔬 Perhitungan Bobot Molekul")
     st.markdown("---")
     input_senyawa = st.text_input("Masukkan Rumus Kimia Senyawa (Contoh: H2SO4, Ca(OH)2, NaCl):", "H2SO4")
@@ -129,7 +194,7 @@ elif menu_pilih == "Bobot Molekul":
         else: 
             st.warning("Silakan isi rumus kimia.")
 
-elif menu_pilih == "Konversi":
+elif menu_pilih == "🔄 Konversi Satuan":
     st.title("🔄 Konversi Hubungan Satuan Kimia")
     st.markdown("---")
     mr_val = st.number_input("Massa Molar / Mr Senyawa (g/mol):", min_value=0.1, value=98.0)
@@ -148,7 +213,7 @@ elif menu_pilih == "Konversi":
             hasil = nilai_asal / val_val
             st.success(f"Hasil Konversi: {format_koma(nilai_asal)} N = {format_koma(hasil)} M")
 
-elif menu_pilih == "Pengenceran":
+elif menu_pilih == "💧 Faktor Pengenceran":
     st.title("🧪 Perhitungan Pengenceran Larutan")
     st.markdown("---")
     m1 = st.number_input("Masukkan Konsentrasi Larutan Pekat (M1):", min_value=0.01, value=12.0)
