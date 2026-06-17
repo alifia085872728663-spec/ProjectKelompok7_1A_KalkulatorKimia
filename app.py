@@ -42,6 +42,14 @@ st.markdown("""
     }
     .feature-title { color: #0f766e; font-weight: bold; font-size: 1.05rem; margin-bottom: 5px; }
     .feature-desc { color: #334155; font-size: 0.92rem; line-height: 1.5; }
+    
+    /* Box Petunjuk Navigasi Baru */
+    .nav-instruction-box {
+        background-color: #e0f2fe; color: #0369a1; padding: 15px; border-radius: 8px;
+        border: 1px solid #bae6fd; margin-top: 25px; font-size: 0.95rem; font-weight: 500;
+        display: flex; align-items: center; gap: 10px;
+    }
+    
     .stButton>button {
         background-color: #0f766e !important; color: white !important;
         border-radius: 8px !important; font-weight: bold !important; border: none !important;
@@ -58,9 +66,11 @@ AR_PERIODIK = {
     'Cr': 51.996, 'Mn': 54.938, 'Fe': 55.845, 'Co': 58.933, 'Ni': 58.693, 'Cu': 63.546, 'Zn': 65.38, 'Ag': 107.87, 'I': 126.90, 'Ba': 137.33, 'Pb': 207.2
 }
 
-# Fungsi format angka desimal
+# --- FUNGSI FORMAT ANGKA ---
 def format_4_angka(nilai): return f"{nilai:.4f}".replace('.', ',')
 def format_2_angka(nilai): return f"{nilai:.2f}".replace('.', ',')
+def format_dinamis(nilai):
+    return f"{round(nilai, 2):,}".replace('.', 'X').replace(',', '.').replace('X', ',')
 
 def hitung_bm_dari_teks(rumus):
     def parse_formula(f):
@@ -88,7 +98,7 @@ def hitung_bm_dari_teks(rumus):
     return total_bm, unsur_tidak_dikenal, " + ".join(rincian)
 
 # ==========================================
-# SIDEBAR NAVIGASI (TANPA TULISAN PILIH HALAMAN)
+# SIDEBAR NAVIGASI (BERSIH)
 # ==========================================
 st.sidebar.title("🧪 Kalkulator Kimia")
 st.sidebar.markdown("---")
@@ -159,6 +169,15 @@ if menu_pilih == "🏠 Home":
         </div>
         """, unsafe_allow_html=True)
 
+    # --- BOX PETUNJUK NAVIGASI DI BAGIAN BAWAH ---
+    st.markdown("""
+    <div class="nav-instruction-box">
+        💡 <b>Petunjuk Penggunaan:</b> Seluruh fitur perhitungan di atas dapat diakses langsung melalui 
+        <b>Menu Navigasi di Sebelah Kiri Atas Layar</b>. Jika menu tidak terlihat, silakan klik tanda panah 
+        &nbsp;<b>&gt;</b>&nbsp; di pojok kiri atas untuk membuka panel navigasi halaman.
+    </div>
+    """, unsafe_allow_html=True)
+
 elif menu_pilih == "🔬 Bobot Molekul":
     st.title("🔬 Perhitungan Bobot Molekul")
     st.markdown("---")
@@ -179,7 +198,6 @@ elif menu_pilih == "🔄 Konversi Satuan":
     st.title("🔄 Konversi Hubungan Satuan Kimia")
     st.markdown("---")
     
-    # Input Parameter Dasar Analisis
     col1, col2 = st.columns(2)
     with col1:
         mr_input = st.number_input("Massa Molar / Mr Zat (g/mol):", min_value=0.1, value=98.0000, format="%.4f")
@@ -194,7 +212,6 @@ elif menu_pilih == "🔄 Konversi Satuan":
     
     st.markdown("---")
     if st.button("Proses Perhitungan Konversi"):
-        # Hitung basis Mol dan Molaritas terlebih dahulu sebagai jembatan konversi dasar
         v_liter = vol_input / 1000.0
         massa_larutan = vol_input * rho_input
         
@@ -211,7 +228,7 @@ elif menu_pilih == "🔄 Konversi Satuan":
         elif satuan_asal == "Mol (n)":
             molaritas = nilai_asal / v_liter
 
-        # Hitung seluruh parameter keluaran (4 angka belakang koma)
+        # Hitung seluruh parameter keluaran
         res_m = molaritas
         res_n = molaritas * val_input
         res_gr = molaritas * mr_input * v_liter
@@ -221,31 +238,31 @@ elif menu_pilih == "🔄 Konversi Satuan":
 
         st.success("✨ Hasil Konversi Hubungan Parameter Satuan:")
         
-        # Tampilkan Output Tabel Hasil
         st.markdown(f"""
         | Parameter Satuan Kimia | Nilai Hasil Analisis |
         | :--- | :--- |
         | **Molaritas (M)** | {format_4_angka(res_m)} M |
         | **Normalitas (N)** | {format_4_angka(res_n)} N |
-        | **Massa Zat Terlarut** | {format_4_angka(res_gr)} gram |
-        | **Kadar Senyawa (% b/b)** | {format_4_angka(res_pct)} % |
-        | **Konsentrasi Trace (ppm)** | {format_4_angka(res_ppm)} mg/L |
-        | **Jumlah Zat (Mol)** | {format_4_angka(res_mol)} mol |
+        | **Massa Zat Terlarut** | {format_dinamis(res_gr)} gram |
+        | **Kadar Senyawa (% b/b)** | {format_dinamis(res_pct)} % |
+        | **Konsentrasi Trace (ppm)** | {format_dinamis(res_ppm)} ppm |
+        | **Jumlah Zat (Mol)** | {format_dinamis(res_mol)} mol |
         """)
 
-        # Tampilkan Penjabaran Rumus Proses
         st.info(f"**Proses Alur Perhitungan Matematis (Jembatan Konversi Molaritas Utama):**\n\n"
                 f"1. Didapatkan nilai **Molaritas Dasar** = ${format_4_angka(res_m)}\\text{{ M}}$\n"
                 f"2. Penentuan Normalitas: $$N = M \\times n = {format_4_angka(res_m)} \\times {val_input} = {format_4_angka(res_n)}\\text{{ N}}$$\n"
-                f"3. Penentuan Massa: $$g = M \\times Mr \\times V_{{(L)}} = {format_4_angka(res_m)} \\times {format_4_angka(mr_input)} \\times {format_4_angka(v_liter)} = {format_4_angka(res_gr)}\\text{{ gram}}$$\n"
-                f"4. Penentuan Kadar %b/b: $$\\% = \\frac{{M \\times Mr}}{{10 \\times \\rho}} = {format_4_angka(res_pct)}\\%$$")
+                f"3. Penentuan Massa: $$g = M \\times Mr \\times V_{{(L)}} = {format_4_angka(res_m)} \\times {format_4_angka(mr_input)} \\times {format_4_angka(v_liter)} = {format_dinamis(res_gr)}\\text{{ gram}}$$\n"
+                f"4. Penentuan Kadar %b/b: $$\\% = \\frac{{M \\times Mr}}{{10 \\times \\rho}} = {format_dinamis(res_pct)}\\%$$\n"
+                f"5. Penentuan ppm: $$\\text{{ppm}} = M \\times Mr \\times 1000 = {format_dinamis(res_ppm)}\\text{{ ppm}}$$\n"
+                f"6. Penentuan Mol: $$\\text{{mol}} = M \\times V_{{(L)}} = {format_dinamis(res_mol)}\\text{{ mol}}$$")
 
 elif menu_pilih == "💧 Faktor Pengenceran":
     st.title("🧪 Perhitungan Pengenceran Larutan")
     st.markdown("---")
     
-    m1 = st.number_input("Masukkan Konsentrasi Larutan Pekat (M1 / N1):", min_value=0.0001, value=12.00, format="%.2f")
-    m2 = st.number_input("Masukkan Konsentrasi Larutan Encer (M2 / N2):", min_value=0.0001, value=0.50, format="%.2f")
+    m1 = st.number_input("Masukkan Konsentrasi Larutan Pekat (M1 / N1):", min_value=0.01, value=12.00, format="%.2f")
+    m2 = st.number_input("Masukkan Konsentrasi Larutan Encer (M2 / N2):", min_value=0.01, value=0.50, format="%.2f")
     v2 = st.number_input("Masukkan Volume Larutan Encer Target (V2) dalam mL:", min_value=0.1, value=500.00, format="%.2f")
     
     if st.button("Hitung Kebutuhan Volume Pekat (V1)"):
@@ -253,7 +270,6 @@ elif menu_pilih == "💧 Faktor Pengenceran":
             v1 = (m2 * v2) / m1
             st.success(f"Hasil: Ambil {format_2_angka(v1)} mL larutan pekat, lalu encerkan hingga {format_2_angka(v2)} mL.")
             
-            # Menampilkan Proses Perhitungan Langkah demi Langkah (2 angka belakang koma)
             st.info(f"**Proses Perhitungan:**\n\n"
                     f"Menggunakan Asas Hukum Pengenceran Larutan Analitis:\n"
                     f"$$C_1 \\times V_1 = C_2 \\times V_2$$\n\n"
