@@ -91,7 +91,7 @@ def hitung_bm_dari_teks(rumus):
     return total_bm, unsur_tidak_dikenal, " + ".join(rincian)
 
 # ==========================================
-# SIDEBAR NAVIGASI (BERSIH)
+# SIDEBAR NAVIGASI
 # ==========================================
 st.sidebar.title("🧪 Kalkulator Kimia")
 st.sidebar.markdown("---")
@@ -196,8 +196,6 @@ elif menu_pilih == "🔄 Konversi Satuan":
         rho_input = st.number_input("Massa Jenis Larutan / ρ (g/mL):", min_value=0.01, value=1.0000, format="%.4f")
 
     st.markdown("### Parameter Konversi")
-    
-    # DAFTAR SATUAN YANG TERSEDIA
     opsi_satuan = ["Molaritas (M)", "Normalitas (N)", "Massa (gram)", "% b/b", "ppm (mg/L)", "Mol (n)"]
     
     col_asal, col_tujuan = st.columns(2)
@@ -210,31 +208,42 @@ elif menu_pilih == "🔄 Konversi Satuan":
     
     st.markdown("---")
     if st.button("Proses Perhitungan Konversi"):
-        if satuan_asal == satuan_tujuan:
+        if satuan_asal == "Molaritas (M)" and satuan_tujuan == "Molaritas (M)":
             st.error("Gagal: Satuan asal dan satuan tujuan tidak boleh sama!")
         else:
             v_liter = vol_input / 1000.0
             massa_larutan = vol_input * rho_input
             
-            # 1. Jembatan Konversi Utama: Cari Molaritas (M) dasarnya dulu dari satuan asal
+            # --- JEMBATAN PERHITUNGAN: MENCARI MOLARITAS UTAMA & RUMUS DETAILNYA ---
             if satuan_asal == "Molaritas (M)":
                 molaritas = nilai_asal
+                rumus_ke_molaritas = f"$$M = {format_4_angka(nilai_asal)}\\text{{ M}}$$ (Sudah dalam bentuk Molaritas)"
+            
             elif satuan_asal == "Normalitas (N)":
                 molaritas = nilai_asal / val_input
+                rumus_ke_molaritas = f"$$M = \\frac{{N}}{{\\text{{valensi}}}} = \\frac{{{format_4_angka(nilai_asal)}}}{{{val_input}}} = {format_4_angka(molaritas)}\\text{{ M}}$$"
+            
             elif satuan_asal == "Massa (gram)":
                 molaritas = (nilai_asal / mr_input) / v_liter
+                rumus_ke_molaritas = f"$$M = \\frac{{\\text{{Massa}}}{{Mr \\times V_{{(L)}}}} = \\frac{{{format_dinamis(nilai_asal)}}}{{{format_4_angka(mr_input)} \\times {format_4_angka(v_liter)}}} = {format_4_angka(molaritas)}\\text{{ M}}$$"
+            
             elif satuan_asal == "% b/b":
                 molaritas = (nilai_asal * 10 * rho_input) / mr_input
+                rumus_ke_molaritas = f"$$M = \\frac{{\\% \\times 10 \\times \\rho}}{{Mr}} = \\frac{{{format_dinamis(nilai_asal)} \\times 10 \\times {format_4_angka(rho_input)}}}{{{format_4_angka(mr_input)}}} = {format_4_angka(molaritas)}\\text{{ M}}$$"
+            
             elif satuan_asal == "ppm (mg/L)":
                 molaritas = (nilai_asal / 1000.0) / mr_input
+                rumus_ke_molaritas = f"$$M = \\frac{{\\text{{ppm}} / 1000}}{{Mr}} = \\frac{{{format_dinamis(nilai_asal)} / 1000}}{{{format_4_angka(mr_input)}}} = {format_4_angka(molaritas)}\\text{{ M}}$$"
+            
             elif satuan_asal == "Mol (n)":
                 molaritas = nilai_asal / v_liter
+                rumus_ke_molaritas = f"$$M = \\frac{{\\text{{mol}}}}{{V_{{(L)}}}} = \\frac{{{format_dinamis(nilai_asal)}}}{{{format_4_angka(v_liter)}}} = {format_4_angka(molaritas)}\\text{{ M}}$$"
 
-            # 2. Hitung nilai akhir berdasarkan satuan tujuan yang dipilih user
+            # --- MENGHITUNG KE SATUAN TUJUAN ---
             if satuan_tujuan == "Molaritas (M)":
                 hasil_akhir = molaritas
                 label_hasil = f"{format_4_angka(hasil_akhir)} M"
-                teks_rumus = f"$$M = {format_4_angka(hasil_akhir)}\\text{{ M}}$$ (Nilai Konsentrasi Molar Dasar)"
+                teks_rumus = f"$$M = {format_4_angka(hasil_akhir)}\\text{{ M}}$$"
             
             elif satuan_tujuan == "Normalitas (N)":
                 hasil_akhir = molaritas * val_input
@@ -249,7 +258,7 @@ elif menu_pilih == "🔄 Konversi Satuan":
             elif satuan_tujuan == "% b/b":
                 hasil_akhir = (molaritas * mr_input) / (10 * rho_input)
                 label_hasil = f"{format_dinamis(hasil_akhir)} %"
-                teks_rumus = f"$$\\%\\text{ b/b} = \\frac{{M \\times Mr}}{{10 \\times \\rho}} = \\frac{{{format_4_angka(molaritas)} \\times {format_4_angka(mr_input)}}}{{10 \\times {format_4_angka(rho_input)}}} = {format_dinamis(hasil_akhir)}\\%$$"
+                teks_rumus = f"$$\\%\\text{{ b/b}} = \\frac{{M \\times Mr}}{{10 \\times \\rho}} = \\frac{{{format_4_angka(molaritas)} \\times {format_4_angka(mr_input)}}}{{10 \\times {format_4_angka(rho_input)}}} = {format_dinamis(hasil_akhir)}\\%$$"
             
             elif satuan_tujuan == "ppm (mg/L)":
                 hasil_akhir = molaritas * mr_input * 1000.0
@@ -261,14 +270,16 @@ elif menu_pilih == "🔄 Konversi Satuan":
                 label_hasil = f"{format_dinamis(hasil_akhir)} mol"
                 teks_rumus = f"$$\\text{{mol}} = M \\times V_{{(L)}} = {format_4_angka(molaritas)} \\times {format_4_angka(v_liter)} = {format_dinamis(hasil_akhir)}\\text{{ mol}}$$"
 
-            # TAMPILKAN HASIL SPESIFIK
+            # TAMPILKAN OUTPUT UTAMA
             st.success(f"✨ **Hasil Konversi:**")
             st.markdown(f"### {label_hasil}")
             
-            # TAMPILKAN RUMUS LANGKAH PENGERJAANNYA
+            # TAMPILKAN JABARAN PROSES LENGKAP (ASAL -> MOLARITAS -> TUJUAN)
             st.info(f"**Proses Alur Perhitungan Matematis:**\n\n"
-                    f"1. Mengubah satuan asal menjadi **Molaritas Dasar** terlebih dahulu = **{format_4_angka(molaritas)} M**\n"
-                    f"2. Mengonversi ke satuan tujuan yang dipilih:\n{teks_rumus}")
+                    f"**Langkah 1: Mengubah Satuan Asal ({satuan_asal}) ke Molaritas Dasar (M)**\n"
+                    f"{rumus_ke_molaritas}\n\n"
+                    f"**Langkah 2: Mengonversi dari Molaritas Dasar ke Satuan Tujuan ({satuan_tujuan})**\n"
+                    f"{teks_rumus}")
 
 elif menu_pilih == "💧 Faktor Pengenceran":
     st.title("🧪 Perhitungan Pengenceran Larutan")
