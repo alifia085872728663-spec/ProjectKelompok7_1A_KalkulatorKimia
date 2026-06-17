@@ -208,13 +208,13 @@ elif menu_pilih == "🔄 Konversi Satuan":
     
     st.markdown("---")
     if st.button("Proses Perhitungan Konversi"):
-        if satuan_asal == "Molaritas (M)" and satuan_tujuan == "Molaritas (M)":
+        if satuan_asal == satuan_tujuan:
             st.error("Gagal: Satuan asal dan satuan tujuan tidak boleh sama!")
         else:
             v_liter = vol_input / 1000.0
             massa_larutan = vol_input * rho_input
             
-            # --- JEMBATAN PERHITUNGAN: MENCARI MOLARITAS UTAMA & RUMUS DETAILNYA ---
+            # --- JEMBATAN PERHITUNGAN: MENCARI MOLARITAS UTAMA & REPARASI F-STRING LAteX ---
             if satuan_asal == "Molaritas (M)":
                 molaritas = nilai_asal
                 rumus_ke_molaritas = f"$$M = {format_4_angka(nilai_asal)}\\text{{ M}}$$ (Sudah dalam bentuk Molaritas)"
@@ -225,7 +225,7 @@ elif menu_pilih == "🔄 Konversi Satuan":
             
             elif satuan_asal == "Massa (gram)":
                 molaritas = (nilai_asal / mr_input) / v_liter
-                rumus_ke_molaritas = f"$$M = \\frac{{\\text{{Massa}}}{{Mr \\times V_{{(L)}}}} = \\frac{{{format_dinamis(nilai_asal)}}}{{{format_4_angka(mr_input)} \\times {format_4_angka(v_liter)}}} = {format_4_angka(molaritas)}\\text{{ M}}$$"
+                rumus_ke_molaritas = f"$$M = \\frac{{\\text{{Massa}}}}{{Mr \\times V_{{(L)}}}} = \\frac{{{format_dinamis(nilai_asal)}}}{{{format_4_angka(mr_input)} \\times {format_4_angka(v_liter)}}} = {format_4_angka(molaritas)}\\text{{ M}}$$"
             
             elif satuan_asal == "% b/b":
                 molaritas = (nilai_asal * 10 * rho_input) / mr_input
@@ -274,7 +274,7 @@ elif menu_pilih == "🔄 Konversi Satuan":
             st.success(f"✨ **Hasil Konversi:**")
             st.markdown(f"### {label_hasil}")
             
-            # TAMPILKAN JABARAN PROSES LENGKAP (ASAL -> MOLARITAS -> TUJUAN)
+            # TAMPILKAN JABARAN PROSES LENGKAP
             st.info(f"**Proses Alur Perhitungan Matematis:**\n\n"
                     f"**Langkah 1: Mengubah Satuan Asal ({satuan_asal}) ke Molaritas Dasar (M)**\n"
                     f"{rumus_ke_molaritas}\n\n"
